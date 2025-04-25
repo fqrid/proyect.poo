@@ -4,7 +4,61 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0c7ce73c-25c4-4a54-b454-d0f1acdf5e60" name="Changes" comment="" />
+    <list default="true" id="0c7ce73c-25c4-4a54-b454-d0f1acdf5e60" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/controller/InicioController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/controller/UsuarioController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/model/Usuario.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/repository/CategoriaRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/repository/ClienteRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/repository/ComentarioRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/repository/PedidoRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/repository/ProductoRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/repository/UsuarioRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/service/CategoriaService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/service/ClienteService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/service/ComentarioService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/service/PedidoService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/service/ProductoService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/service/UsuarioService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/service/UsuarioServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/DemoApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/DemoApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/InicioController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/Usuario.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/UsuarioController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/UsuarioRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/UsuarioService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/controller/CategoriaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/controller/CategoriaController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/controller/ClienteController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/controller/ClienteController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/controller/ComentarioController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/controller/ComentarioController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/controller/PedidoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/controller/PedidoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/controller/ProductoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/controller/ProductoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/model/Categoria.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/model/Categoria.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/model/Cliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/model/Cliente.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/model/Comentario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/model/Comentario.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/model/Pedido.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/model/Pedido.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/model/Producto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/model/Producto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/ejemplo/demo/DemoApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/ejemplo/demo/DemoApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/ejemplo/demo/InicioController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/ejemplo/demo/Usuario.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/ejemplo/demo/UsuarioController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/ejemplo/demo/UsuarioRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/controller/CategoriaController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/controller/ClienteController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/controller/ComentarioController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/controller/PedidoController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/controller/ProductoController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/model/Categoria.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/model/Cliente.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/model/Comentario.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/model/Pedido.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/model/Producto.class" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -20,6 +74,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 4
 }</component>
@@ -30,13 +87,17 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "JUnit.com.ejemplo.demo in demo.executor": "Run",
     "RequestMappingsPanelOrder0": "0",
     "RequestMappingsPanelOrder1": "1",
     "RequestMappingsPanelWidth0": "75",
     "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.DemoApplication (1).executor": "Run",
+    "Spring Boot.DemoApplication$DemoApplication.executor": "Run",
     "Spring Boot.DemoApplication.executor": "Run",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/USER/Poo 2",
@@ -51,6 +112,47 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Spring Boot.DemoApplication (1)">
+    <configuration name="com.ejemplo.demo in demo" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="demo" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.ejemplo.demo.repository.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.ejemplo.demo" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DemoApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="demo" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.ejemplo.demo.DemoApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DemoApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true">
+      <module name="demo" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="DemoApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.com.ejemplo.demo in demo" />
+        <item itemvalue="Spring Boot.DemoApplication" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -68,7 +170,9 @@
       <option name="presentableId" value="Default" />
       <updated>1745519653599</updated>
       <workItem from="1745519654700" duration="1492000" />
-      <workItem from="1745521188392" duration="4343000" />
+      <workItem from="1745521188392" duration="8556000" />
+      <workItem from="1745593127822" duration="6928000" />
+      <workItem from="1745600831077" duration="8763000" />
     </task>
     <servers />
   </component>
