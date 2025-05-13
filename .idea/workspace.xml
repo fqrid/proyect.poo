@@ -5,59 +5,35 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0c7ce73c-25c4-4a54-b454-d0f1acdf5e60" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/controller/InicioController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/controller/UsuarioController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/model/Usuario.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/repository/CategoriaRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/repository/ClienteRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/repository/ComentarioRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/repository/PedidoRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/repository/ProductoRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/repository/UsuarioRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/service/CategoriaService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/service/ClienteService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/service/ComentarioService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/service/PedidoService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/service/ProductoService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/service/UsuarioService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/service/UsuarioServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/DemoApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/DemoApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/InicioController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/Usuario.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/UsuarioController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/UsuarioRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/UsuarioService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/controller/CategoriaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/controller/CategoriaController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/controller/ClienteController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/controller/ClienteController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/controller/ComentarioController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/controller/ComentarioController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/controller/PedidoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/controller/PedidoController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/controller/ProductoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/controller/ProductoController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/model/Categoria.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/model/Categoria.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/model/Cliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/model/Cliente.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/model/Comentario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/model/Comentario.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/model/Pedido.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/model/Pedido.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/model/Producto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/model/Producto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/ejemplo/demo/DemoApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/ejemplo/demo/DemoApplication.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/ejemplo/demo/InicioController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/ejemplo/demo/Usuario.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/ejemplo/demo/UsuarioController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/ejemplo/demo/UsuarioRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/controller/CategoriaController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/controller/ClienteController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/controller/ComentarioController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/controller/PedidoController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/controller/ProductoController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/model/Categoria.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/model/Cliente.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/model/Comentario.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/model/Pedido.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/model/Producto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/controller/CategoriaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/controller/CategoriaController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/controller/ClienteController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/controller/ClienteController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/controller/ComentarioController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/controller/ComentarioController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/controller/InicioController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/controller/InicioController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/controller/PedidoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/controller/PedidoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/controller/ProductoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/controller/ProductoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/controller/UsuarioController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/controller/UsuarioController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/model/Categoria.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/model/Categoria.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/model/Cliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/model/Cliente.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/model/Comentario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/model/Comentario.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/model/Pedido.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/model/Pedido.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/model/Producto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/model/Producto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/model/Usuario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/model/Usuario.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/repository/CategoriaRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/repository/ClienteRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/repository/ComentarioRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/repository/PedidoRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/repository/ProductoRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/repository/UsuarioRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/service/CategoriaService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/service/ClienteService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/service/ComentarioService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/service/PedidoService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/service/ProductoService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/service/UsuarioService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ejemplo/demo/service/UsuarioServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/ejemplo/demo/controller/InicioController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/ejemplo/demo/controller/InicioController.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,33 +61,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "JUnit.com.ejemplo.demo in demo.executor": "Run",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Spring Boot.DemoApplication (1).executor": "Run",
-    "Spring Boot.DemoApplication$DemoApplication.executor": "Run",
-    "Spring Boot.DemoApplication.executor": "Run",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/USER/Poo 2",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;JUnit.com.ejemplo.demo in demo.executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Spring Boot.DemoApplication (1).executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.DemoApplication$DemoApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.DemoApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/USER/Poo 2&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Facets&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="" />
@@ -172,7 +148,17 @@
       <workItem from="1745519654700" duration="1492000" />
       <workItem from="1745521188392" duration="8556000" />
       <workItem from="1745593127822" duration="6928000" />
-      <workItem from="1745600831077" duration="8763000" />
+      <workItem from="1745600831077" duration="9016000" />
+      <workItem from="1745610641623" duration="599000" />
+      <workItem from="1745636601524" duration="3514000" />
+      <workItem from="1745675614656" duration="12000" />
+      <workItem from="1745677336672" duration="629000" />
+      <workItem from="1745690449115" duration="557000" />
+      <workItem from="1745708768251" duration="585000" />
+      <workItem from="1745710706610" duration="143000" />
+      <workItem from="1745712743662" duration="1980000" />
+      <workItem from="1745863561114" duration="84000" />
+      <workItem from="1747170437359" duration="2249000" />
     </task>
     <servers />
   </component>

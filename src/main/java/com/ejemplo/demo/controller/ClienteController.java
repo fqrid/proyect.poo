@@ -3,14 +3,13 @@ package com.ejemplo.demo.controller;
 import com.ejemplo.demo.model.Cliente;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/clientes")
 public class ClienteController {
-    private List<Cliente> lista = new ArrayList<>();
+
+    private final List<Cliente> lista = new ArrayList<>();
     private long idCounter = 1;
 
     @GetMapping
@@ -20,24 +19,23 @@ public class ClienteController {
 
     @GetMapping("/{id}")
     public Cliente obtenerPorId(@PathVariable Long id) {
-        Optional<Cliente> resultado = lista.stream().filter(m -> m.getId().equals(id)).findFirst();
-        return resultado.orElse(null);
+        return lista.stream().filter(c -> c.getId().equals(id)).findFirst().orElse(null);
     }
 
     @PostMapping
-    public Cliente crear(@RequestBody Cliente modelo) {
-        modelo.setId(idCounter++);
-        lista.add(modelo);
-        return modelo;
+    public Cliente crear(@RequestBody Cliente cliente) {
+        cliente.setId(idCounter++);
+        lista.add(cliente);
+        return cliente;
     }
 
     @PutMapping("/{id}")
-    public Cliente actualizar(@PathVariable Long id, @RequestBody Cliente nuevoModelo) {
+    public Cliente actualizar(@PathVariable Long id, @RequestBody Cliente clienteNuevo) {
         for (int i = 0; i < lista.size(); i++) {
             if (lista.get(i).getId().equals(id)) {
-                nuevoModelo.setId(id);
-                lista.set(i, nuevoModelo);
-                return nuevoModelo;
+                clienteNuevo.setId(id);
+                lista.set(i, clienteNuevo);
+                return clienteNuevo;
             }
         }
         return null;
@@ -45,6 +43,6 @@ public class ClienteController {
 
     @DeleteMapping("/{id}")
     public void eliminar(@PathVariable Long id) {
-        lista.removeIf(m -> m.getId().equals(id));
+        lista.removeIf(c -> c.getId().equals(id));
     }
 }

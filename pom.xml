@@ -19,36 +19,22 @@
     </parent>
 
     <properties>
-        <java.version>17</java.version> <!-- Cambia si usas Java 21 o 21LTS -->
+        <java.version>17</java.version>
     </properties>
 
     <dependencies>
-        <!-- Dependencia principal para aplicaciones web (REST API) -->
+        <!-- Web para exponer los endpoints -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- Para usar anotaciones como @Entity si después usas base de datos -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-
-        <!-- H2 Database para pruebas en memoria (opcional, útil para más adelante) -->
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-
-        <!-- Para hacer pruebas unitarias más fáciles -->
+        <!-- Testing (opcional si estás haciendo pruebas) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 
     <build>
@@ -59,5 +45,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
