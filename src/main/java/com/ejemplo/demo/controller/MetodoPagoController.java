@@ -1,58 +1,54 @@
 package com.ejemplo.demo.controller;
 
 import com.ejemplo.demo.model.MetodoPago;
+import com.ejemplo.demo.repository.MetodoPagoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/metodos-pago")
+@RequestMapping("/metodos-pago")
 public class MetodoPagoController {
 
-    private final List<MetodoPago> lista = new ArrayList<>();
-    private long idCounter = 1;
+    @Autowired
+    private MetodoPagoRepository metodoPagoRepository;
 
+    // Obtener todos los métodos de pago
     @GetMapping
-    public List<MetodoPago> obtenerTodos() {
-        return lista;
+    public List<MetodoPago> getAllMetodosPago() {
+        return metodoPagoRepository.findAll();
     }
 
+    // Obtener un método de pago por ID
     @GetMapping("/{id}")
-    public MetodoPago obtenerPorId(@PathVariable Long id) {
-        return lista.stream()
-                .filter(mp -> mp.getId().equals(id))
-                .findFirst()
-                .orElse(null);
+    public Optional<MetodoPago> getMetodoPagoById(@PathVariable Long id) {
+        return metodoPagoRepository.findById(id);
     }
 
-    @GetMapping("/cliente/{clienteId}")
-    public List<MetodoPago> obtenerPorClienteId(@PathVariable Long clienteId) {
-        return lista.stream()
-                .filter(mp -> mp.getClienteId().equals(clienteId))
-                .toList();
-    }
-
+    // Crear un nuevo método de pago
     @PostMapping
-    public MetodoPago crear(@RequestBody MetodoPago metodoPago) {
-        metodoPago.setId(idCounter++);
-        lista.add(metodoPago);
-        return metodoPago;
+    public MetodoPago createMetodoPago(@RequestBody MetodoPago metodoPago) {
+        return metodoPagoRepository.save(metodoPago);
     }
 
+    // Actualizar un método de pago existente
     @PutMapping("/{id}")
-    public MetodoPago actualizar(@PathVariable Long id, @RequestBody MetodoPago metodoPagoNuevo) {
-        for (int i = 0; i < lista.size(); i++) {
-            if (lista.get(i).getId().equals(id)) {
-                metodoPagoNuevo.setId(id);
-                lista.set(i, metodoPagoNuevo);
-                return metodoPagoNuevo;
-            }
-        }
-        return null;
+    public MetodoPago updateMetodoPago(@PathVariable Long id, @RequestBody MetodoPago detalles) {
+        return metodoPagoRepository.findById(id).map(m -> {
+            m.setTipo(detalles.getTipo());
+            m.setDetalle(detalles.getDetalle());
+            return metodoPagoRepository.save(m);
+        }).orElseGet(() -> {
+            detalles.setId(id);
+            return metodoPagoRepository.save(detalles);
+        });
     }
 
+    // Eliminar un método de pago
     @DeleteMapping("/{id}")
-    public void eliminar(@PathVariable Long id) {
-        lista.removeIf(mp -> mp.getId().equals(id));
+    public void deleteMetodoPago(@PathVariable Long id) {
+        metodoPagoRepository.deleteById(id);
     }
 }
