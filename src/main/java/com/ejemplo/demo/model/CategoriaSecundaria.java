@@ -6,14 +6,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class MetodoPago {
+public class CategoriaSecundaria {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String tipo;
-    private String detalle;
+    private String nombre;
+    private String categoriaPrincipalId;
 
     // Getters y Setters
     public Long getId() {
@@ -24,19 +24,19 @@ public class MetodoPago {
         this.id = id;
     }
 
-    public String getTipo() {
-        return tipo;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public String getDetalle() {
-        return detalle;
+    public String getCategoriaPrincipalId() {
+        return categoriaPrincipalId;
     }
 
-    public void setDetalle(String detalle) {
-        this.detalle = detalle;
+    public void setCategoriaPrincipalId(String categoriaPrincipalId) {
+        this.categoriaPrincipalId = categoriaPrincipalId;
     }
 }

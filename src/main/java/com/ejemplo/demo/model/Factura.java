@@ -6,14 +6,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class MetodoPago {
+public class Factura {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String tipo;
-    private String detalle;
+    private String fecha;
+    private String total;
 
     // Getters y Setters
     public Long getId() {
@@ -24,19 +24,19 @@ public class MetodoPago {
         this.id = id;
     }
 
-    public String getTipo() {
-        return tipo;
+    public String getFecha() {
+        return fecha;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
     }
 
-    public String getDetalle() {
-        return detalle;
+    public String getTotal() {
+        return total;
     }
 
-    public void setDetalle(String detalle) {
-        this.detalle = detalle;
+    public void setTotal(String total) {
+        this.total = total;
     }
 }
