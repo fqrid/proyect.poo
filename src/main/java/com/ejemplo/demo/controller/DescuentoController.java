@@ -1,55 +1,74 @@
 package com.ejemplo.demo.controller;
 
 import com.ejemplo.demo.model.Descuento;
-import com.ejemplo.demo.repository.DescuentoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import static spark.Spark.*;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-@RestController
-@RequestMapping("/descuentos")
 public class DescuentoController {
 
-    @Autowired
-    private DescuentoRepository descuentoRepository;
+    private static List<Descuento> descuentos = new ArrayList<>();
+    private static long idCounter = 1;
 
-    // Obtener todos los descuentos
-    @GetMapping
-    public List<Descuento> getAllDescuentos() {
-        return descuentoRepository.findAll();
-    }
-
-    // Obtener un descuento por ID
-    @GetMapping("/{id}")
-    public Optional<Descuento> getDescuentoById(@PathVariable Long id) {
-        return descuentoRepository.findById(id);
-    }
-
-    // Crear un nuevo descuento
-    @PostMapping
-    public Descuento createDescuento(@RequestBody Descuento descuento) {
-        return descuentoRepository.save(descuento);
-    }
-
-    // Actualizar un descuento existente
-    @PutMapping("/{id}")
-    public Descuento updateDescuento(@PathVariable Long id, @RequestBody Descuento detalles) {
-        return descuentoRepository.findById(id).map(d -> {
-            d.setPorcentaje(detalles.getPorcentaje());
-            d.setFechaInicio(detalles.getFechaInicio());
-            d.setFechaFin(detalles.getFechaFin());
-            return descuentoRepository.save(d);
-        }).orElseGet(() -> {
-            detalles.setId(id);
-            return descuentoRepository.save(detalles);
+    public static void main(String[] args) {
+        // Obtener todos los descuentos
+        get("/descuentos", (req, res) -> {
+            res.type("application/json");
+            return new com.google.gson.Gson().toJson(descuentos);
         });
-    }
 
-    // Eliminar un descuento
-    @DeleteMapping("/{id}")
-    public void deleteDescuento(@PathVariable Long id) {
-        descuentoRepository.deleteById(id);
+        // Obtener un descuento por ID
+        get("/descuentos/:id", (req, res) -> {
+            long id = Long.parseLong(req.params(":id"));
+            Descuento descuento = descuentos.stream()
+                    .filter(d -> d.getId() == id)
+                    .findFirst()
+                    .orElse(null);
+            if (descuento == null) {
+                res.status(404);
+                return "Descuento no encontrado";
+            }
+            res.type("application/json");
+            return new com.google.gson.Gson().toJson(descuento);
+        });
+
+        // Crear un nuevo descuento
+        post("/descuentos", (req, res) -> {
+            Descuento nuevo = new com.google.gson.Gson().fromJson(req.body(), Descuento.class);
+            nuevo.setId(idCounter++);
+            descuentos.add(nuevo);
+            res.status(201);
+            return new com.google.gson.Gson().toJson(nuevo);
+        });
+
+        // Actualizar un descuento existente
+        put("/descuentos/:id", (req, res) -> {
+            long id = Long.parseLong(req.params(":id"));
+            Descuento actualizado = new com.google.gson.Gson().fromJson(req.body(), Descuento.class);
+            Descuento existente = descuentos.stream()
+                    .filter(d -> d.getId() == id)
+                    .findFirst()
+                    .orElse(null);
+            if (existente == null) {
+                res.status(404);
+                return "Descuento no encontrado";
+            }
+            existente.setPorcentaje(actualizado.getPorcentaje());
+            existente.setFechaInicio(actualizado.getFechaInicio());
+            existente.setFechaFin(actualizado.getFechaFin());
+            return new com.google.gson.Gson().toJson(existente);
+        });
+
+        // Eliminar un descuento
+        delete("/descuentos/:id", (req, res) -> {
+            long id = Long.parseLong(req.params(":id"));
+            boolean eliminado = descuentos.removeIf(d -> d.getId() == id);
+            if (!eliminado) {
+                res.status(404);
+                return "Descuento no encontrado";
+            }
+            return "Descuento eliminado";
+        });
     }
 }

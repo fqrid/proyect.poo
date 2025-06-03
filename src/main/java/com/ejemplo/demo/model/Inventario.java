@@ -13,7 +13,7 @@ public class Inventario {
     private Long id;
 
     private String producto;
-    private String cantidad;
+    private int cantidad;
 
     // Getters y Setters
     public Long getId() {
@@ -32,11 +32,11 @@ public class Inventario {
         this.producto = producto;
     }
 
-    public String getCantidad() {
+    public int getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(String cantidad) {
+    public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
     }
 }

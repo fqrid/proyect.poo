@@ -1,7 +1,6 @@
 package com.ejemplo.demo.controller;
 
 import com.ejemplo.demo.model.CategoriaSecundaria;
-import com.ejemplo.demo.repository.CategoriaSecundariaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,9 +10,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/categorias-secundarias")
 public class CategoriaSecundariaController {
-
-    @Autowired
-    private CategoriaSecundariaRepository categoriaSecundariaRepository;
 
     // Obtener todas las categorías secundarias
     @GetMapping

@@ -1,18 +1,9 @@
 package com.ejemplo.demo.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
-@Entity
 public class Descuento {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String porcentaje;
+    private double porcentaje;
     private String fechaInicio;
     private String fechaFin;
 
@@ -25,11 +16,11 @@ public class Descuento {
         this.id = id;
     }
 
-    public String getPorcentaje() {
+    public double getPorcentaje() {
         return porcentaje;
     }
 
-    public void setPorcentaje(String porcentaje) {
+    public void setPorcentaje(double porcentaje) {
         this.porcentaje = porcentaje;
     }
 
