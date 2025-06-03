@@ -22,9 +22,9 @@ public class InventarioController {
     }
 
     public void crear(Context ctx) {
-        Inventario i = ctx.bodyAsClass(Inventario.class);
-        service.crear(i);
-        ctx.status(201).json(i);
+        Inventario inventario = ctx.bodyAsClass(Inventario.class);
+        service.crear(inventario);
+        ctx.status(201).json(inventario);
     }
 
     public void obtener(Context ctx) {
@@ -32,14 +32,14 @@ public class InventarioController {
     }
 
     public void actualizar(Context ctx) {
-        Inventario i = ctx.bodyAsClass(Inventario.class);
-        service.actualizar(ctx.pathParam("id"), i);
-        ctx.json(i);
+        Inventario actualizado = ctx.bodyAsClass(Inventario.class);
+        service.actualizar(ctx.pathParam("id"), actualizado);
+        ctx.status(200).json(actualizado);
     }
 
     public void eliminar(Context ctx) {
         service.eliminar(ctx.pathParam("id"));
-        ctx.result("Inventario eliminado");
+        ctx.status(200).result("Inventario eliminado");
     }
 
     public void listar(Context ctx) {

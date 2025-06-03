@@ -22,9 +22,9 @@ public class RolController {
     }
 
     public void crear(Context ctx) {
-        Rol r = ctx.bodyAsClass(Rol.class);
-        service.crear(r);
-        ctx.status(201).json(r);
+        Rol rol = ctx.bodyAsClass(Rol.class);
+        service.crear(rol);
+        ctx.status(201).json(rol);
     }
 
     public void obtener(Context ctx) {
@@ -32,14 +32,14 @@ public class RolController {
     }
 
     public void actualizar(Context ctx) {
-        Rol r = ctx.bodyAsClass(Rol.class);
-        service.actualizar(ctx.pathParam("id"), r);
-        ctx.json(r);
+        Rol actualizado = ctx.bodyAsClass(Rol.class);
+        service.actualizar(ctx.pathParam("id"), actualizado);
+        ctx.status(200).json(actualizado);
     }
 
     public void eliminar(Context ctx) {
         service.eliminar(ctx.pathParam("id"));
-        ctx.result("Rol eliminado");
+        ctx.status(200).result("Rol eliminado");
     }
 
     public void listar(Context ctx) {

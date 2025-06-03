@@ -3,27 +3,37 @@ package com.ejemplo.demo.model;
 public class Pedido {
     private String id;
     private String clienteId;
-    private String fecha;
-    private String estado;
+    private String fechaPedido;
 
     public Pedido() {}
 
-    public Pedido(String id, String clienteId, String fecha, String estado) {
+    public Pedido(String id, String clienteId, String fechaPedido) {
         this.id = id;
         this.clienteId = clienteId;
-        this.fecha = fecha;
-        this.estado = estado;
+        this.fechaPedido = fechaPedido;
     }
 
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    public String getId() {
+        return id;
+    }
 
-    public String getClienteId() { return clienteId; }
-    public void setClienteId(String clienteId) { this.clienteId = clienteId; }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-    public String getFecha() { return fecha; }
-    public void setFecha(String fecha) { this.fecha = fecha; }
+    public String getClienteId() {
+        return clienteId;
+    }
 
-    public String getEstado() { return estado; }
-    public void setEstado(String estado) { this.estado = estado; }
+    public void setClienteId(String clienteId) {
+        this.clienteId = clienteId;
+    }
+
+    public String getFechaPedido() {
+        return fechaPedido;
+    }
+
+    public void setFechaPedido(String fechaPedido) {
+        this.fechaPedido = fechaPedido;
+    }
 }

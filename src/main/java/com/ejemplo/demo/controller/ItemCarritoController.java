@@ -14,11 +14,11 @@ public class ItemCarritoController {
     }
 
     public void configurarRutas(Javalin app) {
-        app.post("/items-carrito", this::crear);
-        app.get("/items-carrito/{id}", this::obtener);
-        app.put("/items-carrito/{id}", this::actualizar);
-        app.delete("/items-carrito/{id}", this::eliminar);
-        app.get("/items-carrito", this::listar);
+        app.post("/item-carrito", this::crear);
+        app.get("/item-carrito/{id}", this::obtener);
+        app.put("/item-carrito/{id}", this::actualizar);
+        app.delete("/item-carrito/{id}", this::eliminar);
+        app.get("/item-carrito", this::listar);
     }
 
     public void crear(Context ctx) {
@@ -32,14 +32,14 @@ public class ItemCarritoController {
     }
 
     public void actualizar(Context ctx) {
-        ItemCarrito item = ctx.bodyAsClass(ItemCarrito.class);
-        service.actualizar(ctx.pathParam("id"), item);
-        ctx.status(200).json(item);
+        ItemCarrito actualizado = ctx.bodyAsClass(ItemCarrito.class);
+        service.actualizar(ctx.pathParam("id"), actualizado);
+        ctx.status(200).json(actualizado);
     }
 
     public void eliminar(Context ctx) {
         service.eliminar(ctx.pathParam("id"));
-        ctx.status(200).result("Item de carrito eliminado");
+        ctx.status(200).result("ItemCarrito eliminado");
     }
 
     public void listar(Context ctx) {

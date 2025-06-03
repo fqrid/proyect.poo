@@ -32,17 +32,18 @@ public class MetodoPagoController {
     }
 
     public void actualizar(Context ctx) {
-        MetodoPago m = ctx.bodyAsClass(MetodoPago.class);
-        service.actualizar(ctx.pathParam("id"), m);
-        ctx.json(m);
+        MetodoPago actualizado = ctx.bodyAsClass(MetodoPago.class);
+        service.actualizar(ctx.pathParam("id"), actualizado);
+        ctx.status(200).json(actualizado);
     }
 
     public void eliminar(Context ctx) {
         service.eliminar(ctx.pathParam("id"));
-        ctx.result("Método de pago eliminado");
+        ctx.status(200).result("Método de pago eliminado");
     }
 
     public void listar(Context ctx) {
         ctx.json(service.listar());
     }
 }
+

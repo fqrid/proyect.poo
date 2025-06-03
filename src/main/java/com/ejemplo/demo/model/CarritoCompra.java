@@ -1,17 +1,11 @@
 package com.ejemplo.demo.model;
 
+import java.util.List;
+
 public class CarritoCompra {
     private String id;
     private String clienteId;
-    private String fecha;
-
-    public CarritoCompra() {}
-
-    public CarritoCompra(String id, String clienteId, String fecha) {
-        this.id = id;
-        this.clienteId = clienteId;
-        this.fecha = fecha;
-    }
+    private List<String> productos;
 
     public String getId() {
         return id;
@@ -29,11 +23,11 @@ public class CarritoCompra {
         this.clienteId = clienteId;
     }
 
-    public String getFecha() {
-        return fecha;
+    public List<String> getProductos() {
+        return productos;
     }
 
-    public void setFecha(String fecha) {
-        this.fecha = fecha;
+    public void setProductos(List<String> productos) {
+        this.productos = productos;
     }
 }

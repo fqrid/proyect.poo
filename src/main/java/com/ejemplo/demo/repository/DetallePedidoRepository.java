@@ -1,34 +1,26 @@
 package com.ejemplo.demo.repository;
 
 import com.ejemplo.demo.model.DetallePedido;
+
 import java.util.*;
 
 public class DetallePedidoRepository {
-    private final List<DetallePedido> datos = new ArrayList<>();
+    private final Map<String, DetallePedido> bd = new HashMap<>();
 
-    public void agregar(DetallePedido detalle) {
-        datos.add(detalle);
+    public DetallePedido save(DetallePedido detalle) {
+        bd.put(detalle.getId(), detalle);
+        return detalle;
     }
 
-    public Optional<DetallePedido> obtenerPorId(String id) {
-        return datos.stream().filter(d -> d.getId().equals(id)).findFirst();
+    public Optional<DetallePedido> findById(String id) {
+        return Optional.ofNullable(bd.get(id));
     }
 
-    public List<DetallePedido> obtenerTodos() {
-        return datos;
+    public List<DetallePedido> findAll() {
+        return new ArrayList<>(bd.values());
     }
 
-    public boolean actualizar(DetallePedido detalle) {
-        Optional<DetallePedido> existente = obtenerPorId(detalle.getId());
-        if (existente.isPresent()) {
-            datos.remove(existente.get());
-            datos.add(detalle);
-            return true;
-        }
-        return false;
-    }
-
-    public boolean eliminarPorId(String id) {
-        return datos.removeIf(d -> d.getId().equals(id));
+    public void deleteById(String id) {
+        bd.remove(id);
     }
 }
