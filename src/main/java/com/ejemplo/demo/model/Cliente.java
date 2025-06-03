@@ -1,23 +1,40 @@
 package com.ejemplo.demo.model;
 
 public class Cliente {
-    private Long id;
+    private Integer id;
     private String nombre;
-    private String email;
+    private String correo;
 
-    public Cliente() {}
-
-    public Cliente(String nombre, String email) {
-        this.nombre = nombre;
-        this.email = email;
+    public Cliente() {
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Cliente(Integer id, String nombre, String correo) {
+        this.id = id;
+        this.nombre = nombre;
+        this.correo = correo;
+    }
+    // Constructor vacío
+    public Integer getId() {
+        return id;
+    }
 
-    public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
 }

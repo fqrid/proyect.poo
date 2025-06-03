@@ -1,34 +1,31 @@
 package com.ejemplo.demo.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
-@Entity
 public class Inventario {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String producto;
+    private Integer id;
+    private Producto producto;
     private int cantidad;
 
-    // Getters y Setters
-    public Long getId() {
+    public Inventario() {}
+
+    public Inventario(Integer id, Producto producto, int cantidad) {
+        this.id = id;
+        this.producto = producto;
+        this.cantidad = cantidad;
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getProducto() {
+    public Producto getProducto() {
         return producto;
     }
 
-    public void setProducto(String producto) {
+    public void setProducto(Producto producto) {
         this.producto = producto;
     }
 

@@ -1,13 +1,15 @@
 package com.ejemplo.demo.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import io.javalin.Javalin;
+import io.javalin.http.Context;
 
-@RestController
 public class InicioController {
 
-    @GetMapping("/")
-    public String inicio() {
-        return "¡Holaaaaaa, Spring Boot está funcionando!";
+    public void configurarRutas(Javalin app) {
+        app.get("/", this::inicio);
+    }
+
+    private void inicio(Context ctx) {
+        ctx.result("¡Holaaaaaa, Javalin está funcionando!");
     }
 }

@@ -1,75 +1,48 @@
 package com.ejemplo.demo.controller;
 
+import io.javalin.Javalin;
+import io.javalin.http.Context;
 import com.ejemplo.demo.model.Pago;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import com.ejemplo.demo.service.PagoService;
 
-import java.util.*;
-
-@RestController
-@RequestMapping("/api/pagos")
 public class PagoController {
 
-    private final List<Pago> lista = new ArrayList<>();
-    private long idCounter = 1;
+    private final PagoService pagoService;
 
-    @GetMapping
-    public List<Pago> obtenerTodos() {
-        return lista;
+    public PagoController(PagoService pagoService) {
+        this.pagoService = pagoService;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Pago> obtenerPorId(@PathVariable Long id) {
-        return lista.stream()
-                .filter(p -> p.getId().equals(id))
-                .findFirst()
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public void configurarRutas(Javalin app) {
+        app.post("/pagos", this::guardarPago);
+        app.get("/pagos/{id}", this::obtenerPago);
+        app.delete("/pagos/{id}", this::eliminarPago);
+        app.put("/pagos/{id}", this::actualizarPago);
+        app.get("/pagos", this::listarPagos);
     }
 
-    @GetMapping("/pedido/{pedidoId}")
-    public List<Pago> obtenerPorPedidoId(@PathVariable Long pedidoId) {
-        return lista.stream()
-                .filter(p -> p.getPedidoId().equals(pedidoId))
-                .toList();
+    public void guardarPago(Context ctx) {
+        Pago pago = ctx.bodyAsClass(Pago.class);
+        pagoService.guardarPago(pago);
+        ctx.status(201).json(pago);
     }
 
-    @GetMapping("/metodo/{metodoId}")
-    public List<Pago> obtenerPorMetodoId(@PathVariable Long metodoId) {
-        return lista.stream()
-                .filter(p -> p.getMetodoId().equals(metodoId))
-                .toList();
+    public void obtenerPago(Context ctx) {
+        ctx.json(pagoService.obtenerPago(ctx.pathParam("id")));
     }
 
-    @PostMapping
-    public ResponseEntity<Pago> crear(@RequestBody Pago pago) {
-        pago.setId(idCounter++);
-        lista.add(pago);
-        return ResponseEntity.ok(pago);
+    public void eliminarPago(Context ctx) {
+        pagoService.eliminarPago(ctx.pathParam("id"));
+        ctx.status(200).result("Pago eliminado");
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Pago> actualizar(@PathVariable Long id, @RequestBody Pago pagoNuevo) {
-        for (int i = 0; i < lista.size(); i++) {
-            if (lista.get(i).getId().equals(id)) {
-                pagoNuevo.setId(id);
-                lista.set(i, pagoNuevo);
-                return ResponseEntity.ok(pagoNuevo);
-            }
-        }
-        return ResponseEntity.notFound().build();
+    public void actualizarPago(Context ctx) {
+        Pago pago = ctx.bodyAsClass(Pago.class);
+        pagoService.actualizarPago(ctx.pathParam("id"), pago);
+        ctx.status(200).json(pago);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
-        boolean eliminado = lista.removeIf(p -> p.getId().equals(id));
-        return eliminado ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
-    }
-
-    @GetMapping("/estado/{estadoPago}")
-    public List<Pago> obtenerPorEstado(@PathVariable String estadoPago) {
-        return lista.stream()
-                .filter(p -> p.getEstadoPago().equalsIgnoreCase(estadoPago))
-                .toList();
+    public void listarPagos(Context ctx) {
+        ctx.json(pagoService.obtenerPagos());
     }
 }

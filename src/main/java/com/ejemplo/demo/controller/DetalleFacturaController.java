@@ -1,55 +1,48 @@
 package com.ejemplo.demo.controller;
 
+import io.javalin.Javalin;
+import io.javalin.http.Context;
 import com.ejemplo.demo.model.DetalleFactura;
-import com.ejemplo.demo.repository.DetalleFacturaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import com.ejemplo.demo.service.DetalleFacturaService;
 
-import java.util.List;
-import java.util.Optional;
-
-@RestController
-@RequestMapping("/detalles-factura")
 public class DetalleFacturaController {
 
-    @Autowired
-    private DetalleFacturaRepository detalleFacturaRepository;
+    private final DetalleFacturaService service;
 
-    // Obtener todos los detalles de factura
-    @GetMapping
-    public List<DetalleFactura> getAllDetallesFactura() {
-        return detalleFacturaRepository.findAll();
+    public DetalleFacturaController(DetalleFacturaService service) {
+        this.service = service;
     }
 
-    // Obtener un detalle de factura por su ID
-    @GetMapping("/{id}")
-    public Optional<DetalleFactura> getDetalleFacturaById(@PathVariable Long id) {
-        return detalleFacturaRepository.findById(id);
+    public void configurarRutas(Javalin app) {
+        app.post("/detalles-factura", this::crear);
+        app.get("/detalles-factura/{id}", this::obtener);
+        app.put("/detalles-factura/{id}", this::actualizar);
+        app.delete("/detalles-factura/{id}", this::eliminar);
+        app.get("/detalles-factura", this::listar);
     }
 
-    // Crear un nuevo detalle de factura
-    @PostMapping
-    public DetalleFactura createDetalleFactura(@RequestBody DetalleFactura detalleFactura) {
-        return detalleFacturaRepository.save(detalleFactura);
+    public void crear(Context ctx) {
+        DetalleFactura detalle = ctx.bodyAsClass(DetalleFactura.class);
+        service.crear(detalle);
+        ctx.status(201).json(detalle);
     }
 
-    // Actualizar un detalle de factura
-    @PutMapping("/{id}")
-    public DetalleFactura updateDetalleFactura(@PathVariable Long id, @RequestBody DetalleFactura detalles) {
-        return detalleFacturaRepository.findById(id).map(df -> {
-            df.setProducto(detalles.getProducto());
-            df.setCantidad(detalles.getCantidad());
-            df.setPrecio(detalles.getPrecio());
-            return detalleFacturaRepository.save(df);
-        }).orElseGet(() -> {
-            detalles.setId(id);
-            return detalleFacturaRepository.save(detalles);
-        });
+    public void obtener(Context ctx) {
+        ctx.json(service.obtener(ctx.pathParam("id")));
     }
 
-    // Eliminar un detalle de factura
-    @DeleteMapping("/{id}")
-    public void deleteDetalleFactura(@PathVariable Long id) {
-        detalleFacturaRepository.deleteById(id);
+    public void actualizar(Context ctx) {
+        DetalleFactura actualizado = ctx.bodyAsClass(DetalleFactura.class);
+        service.actualizar(ctx.pathParam("id"), actualizado);
+        ctx.status(200).json(actualizado);
+    }
+
+    public void eliminar(Context ctx) {
+        service.eliminar(ctx.pathParam("id"));
+        ctx.status(200).result("Detalle de factura eliminado");
+    }
+
+    public void listar(Context ctx) {
+        ctx.json(service.listar());
     }
 }

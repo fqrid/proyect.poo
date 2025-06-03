@@ -1,0 +1,4 @@
+com\ejemplo\demo\model\Cliente.class
+com\ejemplo\demo\model\Factura.class
+com\ejemplo\demo\repository\FacturaRepository.class
+com\ejemplo\demo\service\DetalleFacturaService.class

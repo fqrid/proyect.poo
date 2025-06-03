@@ -1,74 +1,48 @@
 package com.ejemplo.demo.controller;
 
+import io.javalin.Javalin;
+import io.javalin.http.Context;
 import com.ejemplo.demo.model.Factura;
 import com.ejemplo.demo.service.FacturaService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@RestController
-@RequestMapping("/api/facturas")
 public class FacturaController {
 
-    private final FacturaService facturaService;
+    private final FacturaService service;
 
-    @Autowired
-    public FacturaController(FacturaService facturaService) {
-        this.facturaService = facturaService;
+    public FacturaController(FacturaService service) {
+        this.service = service;
     }
 
-    // Obtener todas las facturas
-    @GetMapping
-    public ResponseEntity<List<Factura>> obtenerTodasLasFacturas() {
-        List<Factura> facturas = facturaService.obtenerTodas();
-        return new ResponseEntity<>(facturas, HttpStatus.OK);
+    public void configurarRutas(Javalin app) {
+        app.post("/facturas", this::crear);
+        app.get("/facturas/{id}", this::obtener);
+        app.put("/facturas/{id}", this::actualizar);
+        app.delete("/facturas/{id}", this::eliminar);
+        app.get("/facturas", this::listar);
     }
 
-    // Obtener una factura por ID
-    @GetMapping("/{id}")
-    public ResponseEntity<Factura> obtenerFacturaPorId(@PathVariable Long id) {
-        Factura factura = facturaService.obtenerPorId(id);
-        return factura != null
-                ? new ResponseEntity<>(factura, HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public void crear(Context ctx) {
+        Factura factura = ctx.bodyAsClass(Factura.class);
+        service.crear(factura);
+        ctx.status(201).json(factura);
     }
 
-    // Crear una nueva factura
-    @PostMapping
-    public ResponseEntity<Factura> crearFactura(@RequestBody Factura factura) {
-        Factura nuevaFactura = facturaService.guardar(factura);
-        return new ResponseEntity<>(nuevaFactura, HttpStatus.CREATED);
+    public void obtener(Context ctx) {
+        ctx.json(service.obtener(ctx.pathParam("id")));
     }
 
-    // Actualizar una factura existente
-    @PutMapping("/{id}")
-    public ResponseEntity<Factura> actualizarFactura(
-            @PathVariable Long id,
-            @RequestBody Factura factura) {
-
-        Factura facturaExistente = facturaService.obtenerPorId(id);
-        if (facturaExistente == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        // Actualizar los campos
-        facturaExistente.setFecha(factura.getFecha());
-        facturaExistente.setTotal(factura.getTotal());
-
-        Factura facturaActualizada = facturaService.guardar(facturaExistente);
-        return new ResponseEntity<>(facturaActualizada, HttpStatus.OK);
+    public void actualizar(Context ctx) {
+        Factura actualizada = ctx.bodyAsClass(Factura.class);
+        service.actualizar(ctx.pathParam("id"), actualizada);
+        ctx.status(200).json(actualizada);
     }
 
-    // Eliminar una factura
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminarFactura(@PathVariable Long id) {
-        if (facturaService.obtenerPorId(id) == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        facturaService.eliminar(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public void eliminar(Context ctx) {
+        service.eliminar(ctx.pathParam("id"));
+        ctx.status(200).result("Factura eliminada");
+    }
+
+    public void listar(Context ctx) {
+        ctx.json(service.listar());
     }
 }

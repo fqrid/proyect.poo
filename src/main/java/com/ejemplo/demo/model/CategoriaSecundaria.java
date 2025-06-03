@@ -1,17 +1,24 @@
 package com.ejemplo.demo.model;
 
 public class CategoriaSecundaria {
-
-    private Long id;
+    private String id;
     private String nombre;
-    private String categoriaPrincipalId;
+    private String categoriaId;
 
-    // Getters y Setters
-    public Long getId() {
+    public CategoriaSecundaria() {
+    }
+
+    public CategoriaSecundaria(String id, String nombre, String categoriaId) {
+        this.id = id;
+        this.nombre = nombre;
+        this.categoriaId = categoriaId;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -23,11 +30,11 @@ public class CategoriaSecundaria {
         this.nombre = nombre;
     }
 
-    public String getCategoriaPrincipalId() {
-        return categoriaPrincipalId;
+    public String getCategoriaId() {
+        return categoriaId;
     }
 
-    public void setCategoriaPrincipalId(String categoriaPrincipalId) {
-        this.categoriaPrincipalId = categoriaPrincipalId;
+    public void setCategoriaId(String categoriaId) {
+        this.categoriaId = categoriaId;
     }
 }

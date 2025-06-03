@@ -1,54 +1,48 @@
 package com.ejemplo.demo.controller;
 
+import io.javalin.Javalin;
+import io.javalin.http.Context;
 import com.ejemplo.demo.model.MetodoPago;
-import com.ejemplo.demo.repository.MetodoPagoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import com.ejemplo.demo.service.MetodoPagoService;
 
-import java.util.List;
-import java.util.Optional;
-
-@RestController
-@RequestMapping("/metodos-pago")
 public class MetodoPagoController {
 
-    @Autowired
-    private MetodoPagoRepository metodoPagoRepository;
+    private final MetodoPagoService metodoPagoService;
 
-    // Obtener todos los métodos de pago
-    @GetMapping
-    public List<MetodoPago> getAllMetodosPago() {
-        return metodoPagoRepository.findAll();
+    public MetodoPagoController(MetodoPagoService metodoPagoService) {
+        this.metodoPagoService = metodoPagoService;
     }
 
-    // Obtener un método de pago por ID
-    @GetMapping("/{id}")
-    public Optional<MetodoPago> getMetodoPagoById(@PathVariable Long id) {
-        return metodoPagoRepository.findById(id);
+    public void configurarRutas(Javalin app) {
+        app.post("/metodos-pago", this::guardar);
+        app.get("/metodos-pago/{id}", this::obtener);
+        app.delete("/metodos-pago/{id}", this::eliminar);
+        app.put("/metodos-pago/{id}", this::actualizar);
+        app.get("/metodos-pago", this::listar);
     }
 
-    // Crear un nuevo método de pago
-    @PostMapping
-    public MetodoPago createMetodoPago(@RequestBody MetodoPago metodoPago) {
-        return metodoPagoRepository.save(metodoPago);
+    public void guardar(Context ctx) {
+        MetodoPago mp = ctx.bodyAsClass(MetodoPago.class);
+        metodoPagoService.guardarMetodoPago(mp);
+        ctx.status(201).json(mp);
     }
 
-    // Actualizar un método de pago existente
-    @PutMapping("/{id}")
-    public MetodoPago updateMetodoPago(@PathVariable Long id, @RequestBody MetodoPago detalles) {
-        return metodoPagoRepository.findById(id).map(m -> {
-            m.setTipo(detalles.getTipo());
-            m.setDetalle(detalles.getDetalle());
-            return metodoPagoRepository.save(m);
-        }).orElseGet(() -> {
-            detalles.setId(id);
-            return metodoPagoRepository.save(detalles);
-        });
+    public void obtener(Context ctx) {
+        ctx.json(metodoPagoService.obtenerMetodoPago(ctx.pathParam("id")));
     }
 
-    // Eliminar un método de pago
-    @DeleteMapping("/{id}")
-    public void deleteMetodoPago(@PathVariable Long id) {
-        metodoPagoRepository.deleteById(id);
+    public void eliminar(Context ctx) {
+        metodoPagoService.eliminarMetodoPago(ctx.pathParam("id"));
+        ctx.status(200).result("Método de pago eliminado");
+    }
+
+    public void actualizar(Context ctx) {
+        MetodoPago mp = ctx.bodyAsClass(MetodoPago.class);
+        metodoPagoService.actualizarMetodoPago(ctx.pathParam("id"), mp);
+        ctx.status(200).json(mp);
+    }
+
+    public void listar(Context ctx) {
+        ctx.json(metodoPagoService.obtenerMetodosPago());
     }
 }

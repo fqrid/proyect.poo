@@ -1,29 +1,30 @@
-
 package com.ejemplo.demo.model;
 
 public class CarritoCompra {
-    private Long id;
-    private Long usuarioId;
+    private String id;
+    private String clienteId;
 
-    public CarritoCompra() {}
-
-    public CarritoCompra(Long usuarioId) {
-        this.usuarioId = usuarioId;
+    public CarritoCompra() {
     }
 
-    public Long getId() {
+    public CarritoCompra(String id, String clienteId) {
+        this.id = id;
+        this.clienteId = clienteId;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Long getUsuarioId() {
-        return usuarioId;
+    public String getClienteId() {
+        return clienteId;
     }
 
-    public void setUsuarioId(Long usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setClienteId(String clienteId) {
+        this.clienteId = clienteId;
     }
 }

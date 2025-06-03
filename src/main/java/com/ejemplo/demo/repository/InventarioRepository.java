@@ -2,18 +2,23 @@ package com.ejemplo.demo.repository;
 
 import com.ejemplo.demo.model.Inventario;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class InventarioRepository {
-    private final ArrayList<Inventario> inventarios = new ArrayList<>();
+    private final List<Inventario> inventarios = new ArrayList<>();
     private final AtomicInteger autoId = new AtomicInteger(1);
 
-    public void agregarInventario(Inventario inventario) {
-        inventario.setId(autoId.getAndIncrement());
-        inventarios.add(inventario);
+    public void guardar(Inventario inventario) {
+        if (inventario.getId() == null) {
+            inventario.setId(autoId.getAndIncrement());
+            inventarios.add(inventario);
+        } else {
+            actualizar(inventario.getId(), inventario);
+        }
     }
 
-    public Inventario eliminarInventario(int id) {
+    public Inventario eliminar(int id) {
         for (int i = 0; i < inventarios.size(); i++) {
             if (inventarios.get(i).getId() == id) {
                 return inventarios.remove(i);
@@ -22,7 +27,7 @@ public class InventarioRepository {
         return null;
     }
 
-    public Inventario actualizarInventario(int id, Inventario actualizado) {
+    public Inventario actualizar(int id, Inventario actualizado) {
         for (int i = 0; i < inventarios.size(); i++) {
             if (inventarios.get(i).getId() == id) {
                 actualizado.setId(id);
@@ -33,14 +38,14 @@ public class InventarioRepository {
         return null;
     }
 
-    public Inventario obtenerInventario(int id) {
+    public Inventario obtener(int id) {
         for (Inventario i : inventarios) {
             if (i.getId() == id) return i;
         }
         return null;
     }
 
-    public ArrayList<Inventario> obtenerInventarios() {
-        return inventarios;
+    public List<Inventario> obtenerTodos() {
+        return new ArrayList<>(inventarios);
     }
 }

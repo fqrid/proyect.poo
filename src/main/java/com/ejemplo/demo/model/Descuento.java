@@ -1,13 +1,19 @@
 package com.ejemplo.demo.model;
 
 public class Descuento {
-
     private Long id;
-    private double porcentaje;
-    private String fechaInicio;
-    private String fechaFin;
+    private String descripcion;
+    private Double porcentaje;
 
-    // Getters y Setters
+    public Descuento() {
+    }
+
+    public Descuento(Long id, String descripcion, Double porcentaje) {
+        this.id = id;
+        this.descripcion = descripcion;
+        this.porcentaje = porcentaje;
+    }
+
     public Long getId() {
         return id;
     }
@@ -16,27 +22,19 @@ public class Descuento {
         this.id = id;
     }
 
-    public double getPorcentaje() {
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public Double getPorcentaje() {
         return porcentaje;
     }
 
-    public void setPorcentaje(double porcentaje) {
+    public void setPorcentaje(Double porcentaje) {
         this.porcentaje = porcentaje;
-    }
-
-    public String getFechaInicio() {
-        return fechaInicio;
-    }
-
-    public void setFechaInicio(String fechaInicio) {
-        this.fechaInicio = fechaInicio;
-    }
-
-    public String getFechaFin() {
-        return fechaFin;
-    }
-
-    public void setFechaFin(String fechaFin) {
-        this.fechaFin = fechaFin;
     }
 }

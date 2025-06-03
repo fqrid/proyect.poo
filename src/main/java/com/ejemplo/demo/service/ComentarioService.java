@@ -1,67 +1,58 @@
 package com.ejemplo.demo.service;
 
-import com.ejemplo.demo.exception.BadParameterException;
-import com.ejemplo.demo.exception.NotFoundException;
 import com.ejemplo.demo.model.Comentario;
 import com.ejemplo.demo.repository.ComentarioRepository;
+import com.ejemplo.demo.exception.BadParameterException;
+import com.ejemplo.demo.exception.NotFoundException;
 
 import java.util.List;
 
 public class ComentarioService {
 
-    private final ComentarioRepository comentarioRepository;
+    private final ComentarioRepository repository;
 
-    public ComentarioService(ComentarioRepository comentarioRepository) {
-        this.comentarioRepository = comentarioRepository;
+    public ComentarioService(ComentarioRepository repository) {
+        this.repository = repository;
     }
 
-    private void validarComentario(Comentario comentario) {
-        if (comentario == null) {
-            throw new BadParameterException("Comentario no puede estar vacío");
-        }
+    private void validar(Comentario comentario) {
+        if (comentario == null) throw new BadParameterException("Comentario no puede ser null");
         if (comentario.getTexto() == null || comentario.getTexto().isEmpty()) {
-            throw new BadParameterException("El texto del comentario no puede estar vacío");
-        }
-        if (comentario.getAutor() == null || comentario.getAutor().isEmpty()) {
-            throw new BadParameterException("El autor del comentario no puede estar vacío");
+            throw new BadParameterException("Texto requerido");
         }
     }
 
-    public void guardarComentario(Comentario comentario) {
-        this.validarComentario(comentario);
-        this.comentarioRepository.agregarComentario(comentario);
+    // renombrado de guardar → crear
+    public void crear(Comentario comentario) {
+        validar(comentario);
+        repository.guardar(comentario);
     }
 
-    public void eliminarComentario(String id) {
-        if (id == null) {
-            throw new NotFoundException("No existe el comentario");
+    public void eliminar(String id) {
+        Comentario eliminado = repository.eliminar(Integer.parseInt(id));
+        if (eliminado == null) {
+            throw new NotFoundException("Comentario no encontrado");
         }
-        Comentario comentario = this.comentarioRepository.eliminarComentario(Integer.parseInt(id));
+    }
+
+    public void actualizar(String id, Comentario nuevo) {
+        validar(nuevo);
+        Comentario actualizado = repository.actualizar(Integer.parseInt(id), nuevo);
+        if (actualizado == null) {
+            throw new NotFoundException("Comentario no encontrado");
+        }
+    }
+
+    public Comentario obtener(String id) {
+        Comentario comentario = repository.obtener(Integer.parseInt(id));
         if (comentario == null) {
-            throw new NotFoundException("No existe el comentario");
+            throw new NotFoundException("Comentario no encontrado");
         }
+        return comentario;
     }
 
-    public void actualizarComentario(String id, Comentario comentarioActualizar) {
-        if (id == null) {
-            throw new NotFoundException("No existe el comentario");
-        }
-        this.validarComentario(comentarioActualizar);
-        Comentario comentario = this.comentarioRepository.actualizarComentario(Integer.parseInt(id), comentarioActualizar);
-        if (comentario == null) {
-            throw new NotFoundException("No existe el comentario");
-        }
-    }
-
-    public Comentario obtenerComentario(String id) {
-        if (id == null) {
-            throw new NotFoundException("No existe el comentario");
-        }
-
-        return this.comentarioRepository.obtenerComentario(Integer.parseInt(id));
-    }
-
-    public List<Comentario> obtenerComentarios() {
-        return this.comentarioRepository.obtenerComentarios();
+    // renombrado de obtenerTodos → listar
+    public List<Comentario> listar() {
+        return repository.obtenerTodos();
     }
 }

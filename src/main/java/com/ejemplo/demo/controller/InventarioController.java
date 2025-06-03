@@ -1,54 +1,52 @@
 package com.ejemplo.demo.controller;
 
+import io.javalin.Javalin;
+import io.javalin.http.Context;
 import com.ejemplo.demo.model.Inventario;
-import com.ejemplo.demo.repository.InventarioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import com.ejemplo.demo.service.InventarioService;
 
-import java.util.List;
-import java.util.Optional;
-
-@RestController
-@RequestMapping("/inventario")
 public class InventarioController {
 
-    @Autowired
-    private InventarioRepository inventarioRepository;
+    private final InventarioService inventarioService;
 
-    // Obtener todos los registros de inventario
-    @GetMapping
-    public List<Inventario> getAllInventario() {
-        return inventarioRepository.findAll();
+    public InventarioController(InventarioService inventarioService) {
+        this.inventarioService = inventarioService;
     }
 
-    // Obtener un registro de inventario por ID
-    @GetMapping("/{id}")
-    public Optional<Inventario> getInventarioById(@PathVariable Long id) {
-        return inventarioRepository.findById(id);
+    public void configurarRutas(Javalin app) {
+        app.post("/inventarios", this::guardarInventario);
+        app.get("/inventarios/{id}", this::obtenerInventario);
+        app.delete("/inventarios/{id}", this::eliminarInventario);
+        app.put("/inventarios/{id}", this::actualizarInventario);
+        app.get("/inventarios", this::listarInventarios);
     }
 
-    // Crear un nuevo registro de inventario
-    @PostMapping
-    public Inventario createInventario(@RequestBody Inventario inventario) {
-        return inventarioRepository.save(inventario);
+    public void guardarInventario(Context ctx) {
+        ctx.contentType("application/json");
+        Inventario inventario = ctx.bodyAsClass(Inventario.class);
+        inventarioService.guardarInventario(inventario);
+        ctx.status(201).json(inventario);
     }
 
-    // Actualizar un registro de inventario existente
-    @PutMapping("/{id}")
-    public Inventario updateInventario(@PathVariable Long id, @RequestBody Inventario detalles) {
-        return inventarioRepository.findById(id).map(inv -> {
-            inv.setProducto(detalles.getProducto());
-            inv.setCantidad(detalles.getCantidad());
-            return inventarioRepository.save(inv);
-        }).orElseGet(() -> {
-            detalles.setId(id);
-            return inventarioRepository.save(detalles);
-        });
+    public void obtenerInventario(Context ctx) {
+        String id = ctx.pathParam("id");
+        ctx.json(inventarioService.obtenerInventario(id));
     }
 
-    // Eliminar un registro de inventario
-    @DeleteMapping("/{id}")
-    public void deleteInventario(@PathVariable Long id) {
-        inventarioRepository.deleteById(id);
+    public void eliminarInventario(Context ctx) {
+        String id = ctx.pathParam("id");
+        inventarioService.eliminarInventario(id);
+        ctx.status(200).result("Inventario eliminado con ID: " + id);
+    }
+
+    public void actualizarInventario(Context ctx) {
+        String id = ctx.pathParam("id");
+        Inventario inventario = ctx.bodyAsClass(Inventario.class);
+        inventarioService.actualizarInventario(id, inventario);
+        ctx.status(200).json(inventario);
+    }
+
+    public void listarInventarios(Context ctx) {
+        ctx.json(inventarioService.obtenerInventarios());
     }
 }

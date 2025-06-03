@@ -1,62 +1,40 @@
 package com.ejemplo.demo.model;
 
 public class ItemCarrito {
-    private Long id;
-    private Long carritoId;
-    private Long productoId;
-    private Integer cantidad;
+    private String id;
+    private String productoId;
+    private int cantidad;
 
-    // Constructor vacío
-    public ItemCarrito() {}
+    public ItemCarrito() {
+    }
 
-    // Constructor con parámetros
-    public ItemCarrito(Long carritoId, Long productoId, Integer cantidad) {
-        this.carritoId = carritoId;
+    public ItemCarrito(String id, String productoId, int cantidad) {
+        this.id = id;
         this.productoId = productoId;
         this.cantidad = cantidad;
     }
 
-    // Getters y Setters
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Long getCarritoId() {
-        return carritoId;
-    }
-
-    public void setCarritoId(Long carritoId) {
-        this.carritoId = carritoId;
-    }
-
-    public Long getProductoId() {
+    public String getProductoId() {
         return productoId;
     }
 
-    public void setProductoId(Long productoId) {
+    public void setProductoId(String productoId) {
         this.productoId = productoId;
     }
 
-    public Integer getCantidad() {
+    public int getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(Integer cantidad) {
+    public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
-    }
-
-    // Método toString para mejor visualización del objeto
-    @Override
-    public String toString() {
-        return "ItemCarrito{" +
-                "id=" + id +
-                ", carritoId=" + carritoId +
-                ", productoId=" + productoId +
-                ", cantidad=" + cantidad +
-                '}';
     }
 }

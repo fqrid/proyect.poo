@@ -1,78 +1,62 @@
 package com.ejemplo.demo.controller;
 
+import io.javalin.Javalin;
+import io.javalin.http.Context;
 import com.ejemplo.demo.model.ItemCarrito;
-import org.springframework.web.bind.annotation.*;
+import com.ejemplo.demo.service.ItemCarritoService;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
-@RestController
-@RequestMapping("/api/items-carrito")
+/**
+ * Controlador REST para ItemCarrito, usando Javalin.
+ */
 public class ItemCarritoController {
-    private List<ItemCarrito> lista = new ArrayList<>();
-    private long idCounter = 1;
 
-    @GetMapping
-    public List<ItemCarrito> obtenerTodos() {
-        return lista;
+    private final ItemCarritoService itemCarritoService;
+
+    public ItemCarritoController(ItemCarritoService itemCarritoService) {
+        this.itemCarritoService = itemCarritoService;
     }
 
-    @GetMapping("/{id}")
-    public ItemCarrito obtenerPorId(@PathVariable Long id) {
-        Optional<ItemCarrito> resultado = lista.stream()
-                .filter(item -> item.getId().equals(id))
-                .findFirst();
-        return resultado.orElse(null);
+    /**
+     * Registra las rutas de Javalin para CRUD de ItemCarrito.
+     */
+    public void configurarRutas(Javalin app) {
+        app.post("/items-carrito", this::guardarItem);
+        app.get("/items-carrito/{id}", this::obtenerItem);
+        app.get("/items-carrito", this::listarItems);
+        app.put("/items-carrito/{id}", this::actualizarItem);
+        app.delete("/items-carrito/{id}", this::eliminarItem);
     }
 
-    @GetMapping("/carrito/{carritoId}")
-    public List<ItemCarrito> obtenerPorCarritoId(@PathVariable Long carritoId) {
-        return lista.stream()
-                .filter(item -> item.getCarritoId().equals(carritoId))
-                .collect(Collectors.toList());
+    private void guardarItem(Context ctx) {
+        ctx.contentType("application/json");
+        ItemCarrito item = ctx.bodyAsClass(ItemCarrito.class);
+        ItemCarrito creado = itemCarritoService.crear(item);
+        ctx.status(201).json(creado);
     }
 
-    @PostMapping
-    public ItemCarrito crear(@RequestBody ItemCarrito item) {
-        // Verificar si ya existe un item con el mismo producto en el carrito
-        Optional<ItemCarrito> itemExistente = lista.stream()
-                .filter(i -> i.getCarritoId().equals(item.getCarritoId())
-                        && i.getProductoId().equals(item.getProductoId()))
-                .findFirst();
-
-        if (itemExistente.isPresent()) {
-            // Si existe, actualizar la cantidad
-            ItemCarrito itemActual = itemExistente.get();
-            itemActual.setCantidad(itemActual.getCantidad() + item.getCantidad());
-            return itemActual;
-        }
-
-        item.setId(idCounter++);
-        lista.add(item);
-        return item;
+    private void obtenerItem(Context ctx) {
+        String id = ctx.pathParam("id");             // ID como String
+        ItemCarrito item = itemCarritoService.obtenerPorId(id);
+        ctx.json(item);
     }
 
-    @PutMapping("/{id}")
-    public ItemCarrito actualizar(@PathVariable Long id, @RequestBody ItemCarrito nuevoItem) {
-        for (int i = 0; i < lista.size(); i++) {
-            if (lista.get(i).getId().equals(id)) {
-                nuevoItem.setId(id);
-                lista.set(i, nuevoItem);
-                return nuevoItem;
-            }
-        }
-        return null;
+    private void listarItems(Context ctx) {
+        List<ItemCarrito> lista = itemCarritoService.obtenerTodos();
+        ctx.json(lista);
     }
 
-    @DeleteMapping("/{id}")
-    public void eliminar(@PathVariable Long id) {
-        lista.removeIf(item -> item.getId().equals(id));
+    private void actualizarItem(Context ctx) {
+        String id = ctx.pathParam("id");
+        ItemCarrito nuevo = ctx.bodyAsClass(ItemCarrito.class);
+        ItemCarrito actualizado = itemCarritoService.actualizar(id, nuevo);
+        ctx.json(actualizado);
     }
 
-    @DeleteMapping("/carrito/{carritoId}")
-    public void eliminarPorCarritoId(@PathVariable Long carritoId) {
-        lista.removeIf(item -> item.getCarritoId().equals(carritoId));
+    private void eliminarItem(Context ctx) {
+        String id = ctx.pathParam("id");
+        itemCarritoService.eliminar(id);
+        ctx.status(204); // No Content
     }
 }

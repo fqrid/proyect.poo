@@ -1,68 +1,48 @@
 package com.ejemplo.demo.controller;
 
+import io.javalin.Javalin;
+import io.javalin.http.Context;
 import com.ejemplo.demo.model.Resena;
-import com.ejemplo.demo.model.Producto;
-import com.ejemplo.demo.model.Usuario;
-import org.springframework.web.bind.annotation.*;
+import com.ejemplo.demo.service.ResenaService;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-@RestController
-@RequestMapping("/api/resenas")
 public class ResenaController {
-    private List<Resena> lista = new ArrayList<>();
-    private long idCounter = 1;
 
-    @GetMapping
-    public List<Resena> obtenerTodas() {
-        return lista;
+    private final ResenaService resenaService;
+
+    public ResenaController(ResenaService resenaService) {
+        this.resenaService = resenaService;
     }
 
-    @GetMapping("/{id}")
-    public Resena obtenerPorId(@PathVariable Long id) {
-        Optional<Resena> resultado = lista.stream()
-                .filter(r -> r.getId().equals(id))
-                .findFirst();
-        return resultado.orElse(null);
+    public void configurarRutas(Javalin app) {
+        app.post("/resenas", this::guardarResena);
+        app.get("/resenas/{id}", this::obtenerResena);
+        app.delete("/resenas/{id}", this::eliminarResena);
+        app.put("/resenas/{id}", this::actualizarResena);
+        app.get("/resenas", this::listarResenas);
     }
 
-    @GetMapping("/producto/{productoId}")
-    public List<Resena> obtenerPorProducto(@PathVariable Long productoId) {
-        return lista.stream()
-                .filter(r -> r.getProductoId().equals(productoId))
-                .toList();
+    public void guardarResena(Context ctx) {
+        Resena resena = ctx.bodyAsClass(Resena.class);
+        resenaService.guardarResena(resena);
+        ctx.status(201).json(resena);
     }
 
-    @GetMapping("/usuario/{usuarioId}")
-    public List<Resena> obtenerPorUsuario(@PathVariable Long usuarioId) {
-        return lista.stream()
-                .filter(r -> r.getUsuarioId().equals(usuarioId))
-                .toList();
+    public void obtenerResena(Context ctx) {
+        ctx.json(resenaService.obtenerResena(ctx.pathParam("id")));
     }
 
-    @PostMapping
-    public Resena crear(@RequestBody Resena modelo) {
-        modelo.setId(idCounter++);
-        lista.add(modelo);
-        return modelo;
+    public void eliminarResena(Context ctx) {
+        resenaService.eliminarResena(ctx.pathParam("id"));
+        ctx.status(200).result("Reseña eliminada");
     }
 
-    @PutMapping("/{id}")
-    public Resena actualizar(@PathVariable Long id, @RequestBody Resena nuevoModelo) {
-        for (int i = 0; i < lista.size(); i++) {
-            if (lista.get(i).getId().equals(id)) {
-                nuevoModelo.setId(id);
-                lista.set(i, nuevoModelo);
-                return nuevoModelo;
-            }
-        }
-        return null;
+    public void actualizarResena(Context ctx) {
+        Resena resena = ctx.bodyAsClass(Resena.class);
+        resenaService.actualizarResena(ctx.pathParam("id"), resena);
+        ctx.status(200).json(resena);
     }
 
-    @DeleteMapping("/{id}")
-    public void eliminar(@PathVariable Long id) {
-        lista.removeIf(r -> r.getId().equals(id));
+    public void listarResenas(Context ctx) {
+        ctx.json(resenaService.obtenerResenas());
     }
 }

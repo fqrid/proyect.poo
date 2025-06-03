@@ -1,48 +1,48 @@
 package com.ejemplo.demo.controller;
 
+import io.javalin.Javalin;
+import io.javalin.http.Context;
 import com.ejemplo.demo.model.Comentario;
-import org.springframework.web.bind.annotation.*;
+import com.ejemplo.demo.service.ComentarioService;
 
-import java.util.*;
-
-@RestController
-@RequestMapping("/api/comentarios")
 public class ComentarioController {
 
-    private final List<Comentario> lista = new ArrayList<>();
-    private long idCounter = 1;
+    private final ComentarioService service;
 
-    @GetMapping
-    public List<Comentario> obtenerTodos() {
-        return lista;
+    public ComentarioController(ComentarioService service) {
+        this.service = service;
     }
 
-    @GetMapping("/{id}")
-    public Comentario obtenerPorId(@PathVariable Long id) {
-        return lista.stream().filter(c -> c.getId().equals(id)).findFirst().orElse(null);
+    public void configurarRutas(Javalin app) {
+        app.post("/comentarios", this::crear);
+        app.get("/comentarios/{id}", this::obtener);
+        app.put("/comentarios/{id}", this::actualizar);
+        app.delete("/comentarios/{id}", this::eliminar);
+        app.get("/comentarios", this::listar);
     }
 
-    @PostMapping
-    public Comentario crear(@RequestBody Comentario comentario) {
-        comentario.setId(idCounter++);
-        lista.add(comentario);
-        return comentario;
+    public void crear(Context ctx) {
+        Comentario comentario = ctx.bodyAsClass(Comentario.class);
+        service.crear(comentario);
+        ctx.status(201).json(comentario);
     }
 
-    @PutMapping("/{id}")
-    public Comentario actualizar(@PathVariable Long id, @RequestBody Comentario comentarioNuevo) {
-        for (int i = 0; i < lista.size(); i++) {
-            if (lista.get(i).getId().equals(id)) {
-                comentarioNuevo.setId(id);
-                lista.set(i, comentarioNuevo);
-                return comentarioNuevo;
-            }
-        }
-        return null;
+    public void obtener(Context ctx) {
+        ctx.json(service.obtener(ctx.pathParam("id")));
     }
 
-    @DeleteMapping("/{id}")
-    public void eliminar(@PathVariable Long id) {
-        lista.removeIf(c -> c.getId().equals(id));
+    public void actualizar(Context ctx) {
+        Comentario actualizado = ctx.bodyAsClass(Comentario.class);
+        service.actualizar(ctx.pathParam("id"), actualizado);
+        ctx.status(200).json(actualizado);
+    }
+
+    public void eliminar(Context ctx) {
+        service.eliminar(ctx.pathParam("id"));
+        ctx.status(200).result("Comentario eliminado");
+    }
+
+    public void listar(Context ctx) {
+        ctx.json(service.listar());
     }
 }

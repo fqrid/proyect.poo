@@ -1,42 +1,39 @@
 package com.ejemplo.demo.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
-@Entity
 public class Factura {
+    private Integer id;
+    private Cliente cliente;
+    private double total;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    public Factura() {}
 
-    private String fecha;
-    private String total;
+    public Factura(Integer id, Cliente cliente, double total) {
+        this.id = id;
+        this.cliente = cliente;
+        this.total = total;
+    }
 
-    // Getters y Setters
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getFecha() {
-        return fecha;
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public void setFecha(String fecha) {
-        this.fecha = fecha;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
-    public String getTotal() {
+    public double getTotal() {
         return total;
     }
 
-    public void setTotal(String total) {
+    public void setTotal(double total) {
         this.total = total;
     }
 }

@@ -1,47 +1,45 @@
 package com.ejemplo.demo.repository;
 
 import com.ejemplo.demo.model.CarritoCompra;
+
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class CarritoCompraRepository {
-    private final ArrayList<CarritoCompra> carritoCompras = new ArrayList<>();
+
+    private final List<CarritoCompra> carritoCompras = new ArrayList<>();
     private final AtomicInteger autoId = new AtomicInteger(1);
 
-    public void agregar(CarritoCompra entidad) {
-        entidad.setId(autoId.getAndIncrement());
-        carritoCompras.add(entidad);
+    public void save(CarritoCompra carrito) {
+        carrito.setId(String.valueOf(autoId.getAndIncrement()));
+        carritoCompras.add(carrito);
     }
 
-    public CarritoCompra eliminar(int id) {
+    public CarritoCompra findById(String id) {
+        for (CarritoCompra c : carritoCompras) {
+            if (c.getId().equals(id)) {
+                return c;
+            }
+        }
+        return null;
+    }
+
+    public void update(String id, CarritoCompra actualizado) {
         for (int i = 0; i < carritoCompras.size(); i++) {
-            if (carritoCompras.get(i).getId() == id) {
-                return carritoCompras.remove(i);
+            if (carritoCompras.get(i).getId().equals(id)) {
+                actualizado.setId(id);
+                carritoCompras.set(i, actualizado);
+                return;
             }
         }
-        return null;
     }
 
-    public CarritoCompra actualizar(int id, CarritoCompra entidad) {
-        for (int i = 0; i < carritoCompras.size(); i++) {
-            if (carritoCompras.get(i).getId() == id) {
-                carritoCompras.set(i, entidad);
-                return entidad;
-            }
-        }
-        return null;
+    public void deleteById(String id) {
+        carritoCompras.removeIf(c -> c.getId().equals(id));
     }
 
-    public CarritoCompra obtener(int id) {
-        for (CarritoCompra entidad : carritoCompras) {
-            if (entidad.getId() == id) {
-                return entidad;
-            }
-        }
-        return null;
-    }
-
-    public ArrayList<CarritoCompra> obtenerTodos() {
-        return carritoCompras;
+    public List<CarritoCompra> findAll() {
+        return new ArrayList<>(carritoCompras);
     }
 }

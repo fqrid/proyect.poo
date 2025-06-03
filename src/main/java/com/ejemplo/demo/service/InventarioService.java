@@ -8,42 +8,42 @@ import com.ejemplo.demo.repository.InventarioRepository;
 import java.util.List;
 
 public class InventarioService {
-    private final InventarioRepository inventarioRepository = new InventarioRepository();
 
-    public void agregar(Inventario inventario) {
+    private final InventarioRepository repository;
+
+    public InventarioService(InventarioRepository repository) {
+        this.repository = repository;
+    }
+
+    private void validar(Inventario i) {
+        if (i == null) throw new BadParameterException("Inventario no puede ser null");
+        if (i.getProducto() == null) throw new BadParameterException("Debe tener producto");
+        if (i.getCantidad() < 0) throw new BadParameterException("Cantidad no puede ser negativa");
+    }
+
+    public void guardar(Inventario inventario) {
         validar(inventario);
-        inventarioRepository.agregarInventario(inventario);
+        repository.guardar(inventario);
     }
 
-    public Inventario eliminar(int id) {
-        Inventario eliminado = inventarioRepository.eliminarInventario(id);
+    public void eliminar(String id) {
+        Inventario eliminado = repository.eliminar(Integer.parseInt(id));
         if (eliminado == null) throw new NotFoundException("Inventario no encontrado");
-        return eliminado;
     }
 
-    public Inventario actualizar(int id, Inventario actualizado) {
-        validar(actualizado);
-        Inventario actualizadoOK = inventarioRepository.actualizarInventario(id, actualizado);
-        if (actualizadoOK == null) throw new NotFoundException("Inventario no encontrado");
-        return actualizadoOK;
+    public void actualizar(String id, Inventario nuevo) {
+        validar(nuevo);
+        Inventario actualizado = repository.actualizar(Integer.parseInt(id), nuevo);
+        if (actualizado == null) throw new NotFoundException("Inventario no encontrado");
     }
 
-    public Inventario obtener(int id) {
-        Inventario inventario = inventarioRepository.obtenerInventario(id);
+    public Inventario obtener(String id) {
+        Inventario inventario = repository.obtener(Integer.parseInt(id));
         if (inventario == null) throw new NotFoundException("Inventario no encontrado");
         return inventario;
     }
 
-    public List<Inventario> listar() {
-        return inventarioRepository.obtenerInventarios();
-    }
-
-    private void validar(Inventario inventario) {
-        if (inventario == null)
-            throw new BadParameterException("El inventario no puede ser nulo");
-        if (inventario.getProducto() == null || inventario.getProducto().isEmpty())
-            throw new BadParameterException("El producto no puede estar vacío");
-        if (inventario.getCantidad() < 0)
-            throw new BadParameterException("La cantidad no puede ser negativa");
+    public List<Inventario> obtenerTodos() {
+        return repository.obtenerTodos();
     }
 }

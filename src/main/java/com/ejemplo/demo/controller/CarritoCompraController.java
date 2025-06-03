@@ -1,69 +1,48 @@
 package com.ejemplo.demo.controller;
 
+import io.javalin.Javalin;
+import io.javalin.http.Context;
 import com.ejemplo.demo.model.CarritoCompra;
-import org.springframework.web.bind.annotation.*;
+import com.ejemplo.demo.service.CarritoCompraService;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-@RestController
-@RequestMapping("/api/carritos")
 public class CarritoCompraController {
-    private List<CarritoCompra> lista = new ArrayList<>();
-    private long idCounter = 1;
 
-    @GetMapping
-    public List<CarritoCompra> obtenerTodos() {
-        return lista;
+    private final CarritoCompraService carritoService;
+
+    public CarritoCompraController(CarritoCompraService carritoService) {
+        this.carritoService = carritoService;
     }
 
-    @GetMapping("/{id}")
-    public CarritoCompra obtenerPorId(@PathVariable Long id) {
-        Optional<CarritoCompra> resultado = lista.stream()
-                .filter(c -> c.getId().equals(id))
-                .findFirst();
-        return resultado.orElse(null);
+    public void configurarRutas(Javalin app) {
+        app.post("/carritos", this::crear);
+        app.get("/carritos/{id}", this::obtener);
+        app.put("/carritos/{id}", this::actualizar);
+        app.delete("/carritos/{id}", this::eliminar);
+        app.get("/carritos", this::listar);
     }
 
-    @GetMapping("/usuario/{usuarioId}")
-    public CarritoCompra obtenerPorUsuarioId(@PathVariable Long usuarioId) {
-        Optional<CarritoCompra> resultado = lista.stream()
-                .filter(c -> c.getUsuarioId().equals(usuarioId))
-                .findFirst();
-        return resultado.orElse(null);
+    public void crear(Context ctx) {
+        CarritoCompra carrito = ctx.bodyAsClass(CarritoCompra.class);
+        carritoService.crear(carrito);
+        ctx.status(201).json(carrito);
     }
 
-    @PostMapping
-    public CarritoCompra crear(@RequestBody CarritoCompra carrito) {
-        // Verificar si ya existe un carrito para este usuario
-        Optional<CarritoCompra> carritoExistente = lista.stream()
-                .filter(c -> c.getUsuarioId().equals(carrito.getUsuarioId()))
-                .findFirst();
-
-        if (carritoExistente.isPresent()) {
-            return carritoExistente.get();
-        }
-
-        carrito.setId(idCounter++);
-        lista.add(carrito);
-        return carrito;
+    public void obtener(Context ctx) {
+        ctx.json(carritoService.obtener(ctx.pathParam("id")));
     }
 
-    @PutMapping("/{id}")
-    public CarritoCompra actualizar(@PathVariable Long id, @RequestBody CarritoCompra nuevoCarrito) {
-        for (int i = 0; i < lista.size(); i++) {
-            if (lista.get(i).getId().equals(id)) {
-                nuevoCarrito.setId(id);
-                lista.set(i, nuevoCarrito);
-                return nuevoCarrito;
-            }
-        }
-        return null;
+    public void actualizar(Context ctx) {
+        CarritoCompra actualizado = ctx.bodyAsClass(CarritoCompra.class);
+        carritoService.actualizar(ctx.pathParam("id"), actualizado);
+        ctx.status(200).json(actualizado);
     }
 
-    @DeleteMapping("/{id}")
-    public void eliminar(@PathVariable Long id) {
-        lista.removeIf(c -> c.getId().equals(id));
+    public void eliminar(Context ctx) {
+        carritoService.eliminar(ctx.pathParam("id"));
+        ctx.status(200).result("Carrito eliminado");
+    }
+
+    public void listar(Context ctx) {
+        ctx.json(carritoService.listar());
     }
 }

@@ -1,48 +1,48 @@
 package com.ejemplo.demo.controller;
 
+import io.javalin.Javalin;
+import io.javalin.http.Context;
 import com.ejemplo.demo.model.Categoria;
-import org.springframework.web.bind.annotation.*;
+import com.ejemplo.demo.service.CategoriaService;
 
-import java.util.*;
-
-@RestController
-@RequestMapping("/api/categorias")
 public class CategoriaController {
 
-    private final List<Categoria> lista = new ArrayList<>();
-    private long idCounter = 1;
+    private final CategoriaService categoriaService;
 
-    @GetMapping
-    public List<Categoria> obtenerTodos() {
-        return lista;
+    public CategoriaController(CategoriaService categoriaService) {
+        this.categoriaService = categoriaService;
     }
 
-    @GetMapping("/{id}")
-    public Categoria obtenerPorId(@PathVariable Long id) {
-        return lista.stream().filter(c -> c.getId().equals(id)).findFirst().orElse(null);
+    public void configurarRutas(Javalin app) {
+        app.post("/categorias", this::crear);
+        app.get("/categorias/{id}", this::obtener);
+        app.put("/categorias/{id}", this::actualizar);
+        app.delete("/categorias/{id}", this::eliminar);
+        app.get("/categorias", this::listar);
     }
 
-    @PostMapping
-    public Categoria crear(@RequestBody Categoria categoria) {
-        categoria.setId(idCounter++);
-        lista.add(categoria);
-        return categoria;
+    public void crear(Context ctx) {
+        Categoria categoria = ctx.bodyAsClass(Categoria.class);
+        categoriaService.crear(categoria);
+        ctx.status(201).json(categoria);
     }
 
-    @PutMapping("/{id}")
-    public Categoria actualizar(@PathVariable Long id, @RequestBody Categoria categoriaNueva) {
-        for (int i = 0; i < lista.size(); i++) {
-            if (lista.get(i).getId().equals(id)) {
-                categoriaNueva.setId(id);
-                lista.set(i, categoriaNueva);
-                return categoriaNueva;
-            }
-        }
-        return null;
+    public void obtener(Context ctx) {
+        ctx.json(categoriaService.obtener(ctx.pathParam("id")));
     }
 
-    @DeleteMapping("/{id}")
-    public void eliminar(@PathVariable Long id) {
-        lista.removeIf(c -> c.getId().equals(id));
+    public void actualizar(Context ctx) {
+        Categoria actualizada = ctx.bodyAsClass(Categoria.class);
+        categoriaService.actualizar(ctx.pathParam("id"), actualizada);
+        ctx.status(200).json(actualizada);
+    }
+
+    public void eliminar(Context ctx) {
+        categoriaService.eliminar(ctx.pathParam("id"));
+        ctx.status(200).result("Categoría eliminada");
+    }
+
+    public void listar(Context ctx) {
+        ctx.json(categoriaService.listar());
     }
 }

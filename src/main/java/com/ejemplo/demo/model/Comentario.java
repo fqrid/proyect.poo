@@ -1,27 +1,22 @@
 package com.ejemplo.demo.model;
 
 public class Comentario {
-    private Long id;
+    private Integer id;
     private String texto;
-    private String autor;
 
-    // Constructor vacío
     public Comentario() {
     }
 
-    // Constructor con parámetros
-    public Comentario(Long id, String texto, String autor) {
+    public Comentario(Integer id, String texto) {
         this.id = id;
         this.texto = texto;
-        this.autor = autor;
     }
 
-    // Getters y Setters
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -31,13 +26,5 @@ public class Comentario {
 
     public void setTexto(String texto) {
         this.texto = texto;
-    }
-
-    public String getAutor() {
-        return autor;
-    }
-
-    public void setAutor(String autor) {
-        this.autor = autor;
     }
 }

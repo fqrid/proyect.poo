@@ -1,48 +1,48 @@
 package com.ejemplo.demo.controller;
 
+import io.javalin.Javalin;
+import io.javalin.http.Context;
 import com.ejemplo.demo.model.Cliente;
-import org.springframework.web.bind.annotation.*;
+import com.ejemplo.demo.service.ClienteService;
 
-import java.util.*;
-
-@RestController
-@RequestMapping("/api/clientes")
 public class ClienteController {
 
-    private final List<Cliente> lista = new ArrayList<>();
-    private long idCounter = 1;
+    private final ClienteService servicio;
 
-    @GetMapping
-    public List<Cliente> obtenerTodos() {
-        return lista;
+    public ClienteController(ClienteService servicio) {
+        this.servicio = servicio;
     }
 
-    @GetMapping("/{id}")
-    public Cliente obtenerPorId(@PathVariable Long id) {
-        return lista.stream().filter(c -> c.getId().equals(id)).findFirst().orElse(null);
+    public void configurarRutas(Javalin app) {
+        app.post("/clientes", this::crear);
+        app.get("/clientes/{id}", this::obtener);
+        app.put("/clientes/{id}", this::actualizar);
+        app.delete("/clientes/{id}", this::eliminar);
+        app.get("/clientes", this::listar);
     }
 
-    @PostMapping
-    public Cliente crear(@RequestBody Cliente cliente) {
-        cliente.setId(idCounter++);
-        lista.add(cliente);
-        return cliente;
+    public void crear(Context ctx) {
+        Cliente cliente = ctx.bodyAsClass(Cliente.class);
+        servicio.crear(cliente);
+        ctx.status(201).json(cliente);
     }
 
-    @PutMapping("/{id}")
-    public Cliente actualizar(@PathVariable Long id, @RequestBody Cliente clienteNuevo) {
-        for (int i = 0; i < lista.size(); i++) {
-            if (lista.get(i).getId().equals(id)) {
-                clienteNuevo.setId(id);
-                lista.set(i, clienteNuevo);
-                return clienteNuevo;
-            }
-        }
-        return null;
+    public void obtener(Context ctx) {
+        ctx.json(servicio.obtener(ctx.pathParam("id")));
     }
 
-    @DeleteMapping("/{id}")
-    public void eliminar(@PathVariable Long id) {
-        lista.removeIf(c -> c.getId().equals(id));
+    public void actualizar(Context ctx) {
+        Cliente actualizado = ctx.bodyAsClass(Cliente.class);
+        servicio.actualizar(ctx.pathParam("id"), actualizado);
+        ctx.status(200).json(actualizado);
+    }
+
+    public void eliminar(Context ctx) {
+        servicio.eliminar(ctx.pathParam("id"));
+        ctx.status(200).result("Cliente eliminado");
+    }
+
+    public void listar(Context ctx) {
+        ctx.json(servicio.listar());
     }
 }

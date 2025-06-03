@@ -5,43 +5,46 @@ import com.ejemplo.demo.exception.NotFoundException;
 import com.ejemplo.demo.model.Direccion;
 import com.ejemplo.demo.repository.DireccionRepository;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class DireccionService {
-    private final DireccionRepository direccionRepository = new DireccionRepository();
-    public void crearDireccion(Direccion direccion) {
-        validar(direccion);
-        direccionRepository.agregar(direccion);
+    private final DireccionRepository repository;
+
+    public DireccionService(DireccionRepository repository) {
+        this.repository = repository;
     }
 
-    public Direccion obtenerDireccion(int id) {
-        Direccion d = direccionRepository.obtener(id);
-        if (d == null) throw new NotFoundException("Dirección no encontrada");
-        return d;
+    private void validar(Direccion d) {
+        if (d == null) throw new BadParameterException("Direccion inválida");
+        if (d.getCiudad() == null || d.getCiudad().isEmpty())
+            throw new BadParameterException("Ciudad requerida");
+        if (d.getDireccion() == null || d.getDireccion().isEmpty())
+            throw new BadParameterException("Direccion requerida");
     }
 
-    public ArrayList<Direccion> listarDirecciones() {
-        return direccionRepository.obtenerTodas();
+    public void guardar(Direccion d) {
+        validar(d);
+        repository.guardar(d);
     }
 
-    public Direccion actualizarDireccion(int id, Direccion direccion) {
-        validar(direccion);
-        Direccion d = direccionRepository.actualizar(id, direccion);
-        if (d == null) throw new NotFoundException("Dirección no encontrada para actualizar");
-        return d;
+    public void eliminar(String id) {
+        Direccion r = repository.eliminar(Integer.parseInt(id));
+        if (r == null) throw new NotFoundException("No existe Dirección");
     }
 
-    public Direccion eliminarDireccion(int id) {
-        Direccion d = direccionRepository.eliminar(id);
-        if (d == null) throw new NotFoundException("Dirección no encontrada para eliminar");
-        return d;
+    public void actualizar(String id, Direccion nuevo) {
+        validar(nuevo);
+        Direccion actualizado = repository.actualizar(Integer.parseInt(id), nuevo);
+        if (actualizado == null) throw new NotFoundException("No existe Dirección");
     }
 
-    private void validar(Direccion direccion) {
-        if (direccion == null) throw new BadParameterException("Dirección no puede ser nula");
-        if (direccion.getCalle() == null || direccion.getCalle().isEmpty())
-            throw new BadParameterException("La calle no puede estar vacía");
-        if (direccion.getCiudad() == null || direccion.getCiudad().isEmpty())
-            throw new BadParameterException("La ciudad no puede estar vacía");
+    public Direccion obtener(String id) {
+        Direccion r = repository.obtener(Integer.parseInt(id));
+        if (r == null) throw new NotFoundException("No existe Dirección");
+        return r;
+    }
+
+    public List<Direccion> obtenerTodos() {
+        return repository.obtenerTodos();
     }
 }

@@ -1,50 +1,52 @@
 package com.ejemplo.demo.controller;
 
+import io.javalin.Javalin;
+import io.javalin.http.Context;
 import com.ejemplo.demo.model.Producto;
-import org.springframework.web.bind.annotation.*;
+import com.ejemplo.demo.service.ProductoService;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-@RestController
-@RequestMapping("/api/productos")
 public class ProductoController {
-    private List<Producto> lista = new ArrayList<>();
-    private long idCounter = 1;
 
-    @GetMapping
-    public List<Producto> obtenerTodos() {
-        return lista;
+    private final ProductoService productoService;
+
+    public ProductoController(ProductoService productoService) {
+        this.productoService = productoService;
     }
 
-    @GetMapping("/{id}")
-    public Producto obtenerPorId(@PathVariable Long id) {
-        Optional<Producto> resultado = lista.stream().filter(p -> p.getId().equals(id)).findFirst();
-        return resultado.orElse(null);
+    public void configurarRutas(Javalin app) {
+        app.post("/productos", this::guardarProducto);
+        app.get("/productos/{id}", this::obtenerProducto);
+        app.delete("/productos/{id}", this::eliminarProducto);
+        app.put("/productos/{id}", this::actualizarProducto);
+        app.get("/productos", this::listarProductos);
     }
 
-    @PostMapping
-    public Producto crear(@RequestBody Producto modelo) {
-        modelo.setId(idCounter++);
-        lista.add(modelo);
-        return modelo;
+    public void guardarProducto(Context ctx) {
+        ctx.contentType("application/json");
+        Producto producto = ctx.bodyAsClass(Producto.class);
+        productoService.guardarProducto(producto);
+        ctx.status(201).json(producto);
     }
 
-    @PutMapping("/{id}")
-    public Producto actualizar(@PathVariable Long id, @RequestBody Producto nuevoModelo) {
-        for (int i = 0; i < lista.size(); i++) {
-            if (lista.get(i).getId().equals(id)) {
-                nuevoModelo.setId(id);
-                lista.set(i, nuevoModelo);
-                return nuevoModelo;
-            }
-        }
-        return null;
+    public void obtenerProducto(Context ctx) {
+        String id = ctx.pathParam("id");
+        ctx.json(productoService.obtenerProducto(id));
     }
 
-    @DeleteMapping("/{id}")
-    public void eliminar(@PathVariable Long id) {
-        lista.removeIf(p -> p.getId().equals(id));
+    public void eliminarProducto(Context ctx) {
+        String id = ctx.pathParam("id");
+        productoService.eliminarProducto(id);
+        ctx.status(200).result("Producto eliminado con ID: " + id);
+    }
+
+    public void actualizarProducto(Context ctx) {
+        String id = ctx.pathParam("id");
+        Producto producto = ctx.bodyAsClass(Producto.class);
+        productoService.actualizarProducto(id, producto);
+        ctx.status(200).json(producto);
+    }
+
+    public void listarProductos(Context ctx) {
+        ctx.json(productoService.obtenerProductos());
     }
 }

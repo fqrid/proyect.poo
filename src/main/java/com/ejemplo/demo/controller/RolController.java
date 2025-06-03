@@ -1,53 +1,48 @@
 package com.ejemplo.demo.controller;
 
+import io.javalin.Javalin;
+import io.javalin.http.Context;
 import com.ejemplo.demo.model.Rol;
-import com.ejemplo.demo.repository.RolRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import com.ejemplo.demo.service.RolService;
 
-import java.util.List;
-import java.util.Optional;
-
-@RestController
-@RequestMapping("/roles")
 public class RolController {
 
-    @Autowired
-    private RolRepository rolRepository;
+    private final RolService rolService;
 
-    // Obtener todos los roles
-    @GetMapping
-    public List<Rol> getAllRoles() {
-        return rolRepository.findAll();
+    public RolController(RolService rolService) {
+        this.rolService = rolService;
     }
 
-    // Obtener un rol por ID
-    @GetMapping("/{id}")
-    public Optional<Rol> getRolById(@PathVariable Long id) {
-        return rolRepository.findById(id);
+    public void configurarRutas(Javalin app) {
+        app.post("/roles", this::guardarRol);
+        app.get("/roles/{id}", this::obtenerRol);
+        app.delete("/roles/{id}", this::eliminarRol);
+        app.put("/roles/{id}", this::actualizarRol);
+        app.get("/roles", this::listarRoles);
     }
 
-    // Crear un nuevo rol
-    @PostMapping
-    public Rol createRol(@RequestBody Rol rol) {
-        return rolRepository.save(rol);
+    public void guardarRol(Context ctx) {
+        Rol rol = ctx.bodyAsClass(Rol.class);
+        rolService.guardarRol(rol);
+        ctx.status(201).json(rol);
     }
 
-    // Actualizar un rol existente
-    @PutMapping("/{id}")
-    public Rol updateRol(@PathVariable Long id, @RequestBody Rol detalles) {
-        return rolRepository.findById(id).map(r -> {
-            r.setNombre(detalles.getNombre());
-            return rolRepository.save(r);
-        }).orElseGet(() -> {
-            detalles.setId(id);
-            return rolRepository.save(detalles);
-        });
+    public void obtenerRol(Context ctx) {
+        ctx.json(rolService.obtenerRol(ctx.pathParam("id")));
     }
 
-    // Eliminar un rol
-    @DeleteMapping("/{id}")
-    public void deleteRol(@PathVariable Long id) {
-        rolRepository.deleteById(id);
+    public void eliminarRol(Context ctx) {
+        rolService.eliminarRol(ctx.pathParam("id"));
+        ctx.status(200).result("Rol eliminado");
+    }
+
+    public void actualizarRol(Context ctx) {
+        Rol rol = ctx.bodyAsClass(Rol.class);
+        rolService.actualizarRol(ctx.pathParam("id"), rol);
+        ctx.status(200).json(rol);
+    }
+
+    public void listarRoles(Context ctx) {
+        ctx.json(rolService.obtenerRoles());
     }
 }

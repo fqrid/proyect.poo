@@ -1,50 +1,48 @@
 package com.ejemplo.demo.controller;
 
+import io.javalin.Javalin;
+import io.javalin.http.Context;
 import com.ejemplo.demo.model.Usuario;
-import org.springframework.web.bind.annotation.*;
+import com.ejemplo.demo.service.UsuarioService;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-@RestController
-@RequestMapping("/api/usuarios")
 public class UsuarioController {
-    private List<Usuario> lista = new ArrayList<>();
-    private long idCounter = 1;
 
-    @GetMapping
-    public List<Usuario> obtenerTodos() {
-        return lista;
+    private final UsuarioService usuarioService;
+
+    public UsuarioController(UsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
     }
 
-    @GetMapping("/{id}")
-    public Usuario obtenerPorId(@PathVariable Long id) {
-        Optional<Usuario> resultado = lista.stream().filter(u -> u.getId().equals(id)).findFirst();
-        return resultado.orElse(null);
+    public void configurarRutas(Javalin app) {
+        app.post("/usuarios", this::guardarUsuario);
+        app.get("/usuarios/{id}", this::obtenerUsuario);
+        app.delete("/usuarios/{id}", this::eliminarUsuario);
+        app.put("/usuarios/{id}", this::actualizarUsuario);
+        app.get("/usuarios", this::listarUsuarios);
     }
 
-    @PostMapping
-    public Usuario crear(@RequestBody Usuario modelo) {
-        modelo.setId(idCounter++);
-        lista.add(modelo);
-        return modelo;
+    public void guardarUsuario(Context ctx) {
+        Usuario usuario = ctx.bodyAsClass(Usuario.class);
+        usuarioService.guardarUsuario(usuario);
+        ctx.status(201).json(usuario);
     }
 
-    @PutMapping("/{id}")
-    public Usuario actualizar(@PathVariable Long id, @RequestBody Usuario nuevoModelo) {
-        for (int i = 0; i < lista.size(); i++) {
-            if (lista.get(i).getId().equals(id)) {
-                nuevoModelo.setId(id);
-                lista.set(i, nuevoModelo);
-                return nuevoModelo;
-            }
-        }
-        return null;
+    public void obtenerUsuario(Context ctx) {
+        ctx.json(usuarioService.obtenerUsuario(ctx.pathParam("id")));
     }
 
-    @DeleteMapping("/{id}")
-    public void eliminar(@PathVariable Long id) {
-        lista.removeIf(u -> u.getId().equals(id));
+    public void eliminarUsuario(Context ctx) {
+        usuarioService.eliminarUsuario(ctx.pathParam("id"));
+        ctx.status(200).result("Usuario eliminado");
+    }
+
+    public void actualizarUsuario(Context ctx) {
+        Usuario usuario = ctx.bodyAsClass(Usuario.class);
+        usuarioService.actualizarUsuario(ctx.pathParam("id"), usuario);
+        ctx.status(200).json(usuario);
+    }
+
+    public void listarUsuarios(Context ctx) {
+        ctx.json(usuarioService.obtenerUsuarios());
     }
 }

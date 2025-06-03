@@ -1,62 +1,48 @@
 package com.ejemplo.demo.controller;
 
+import io.javalin.Javalin;
+import io.javalin.http.Context;
 import com.ejemplo.demo.model.DetallePedido;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import com.ejemplo.demo.service.DetallePedidoService;
 
-import java.util.ArrayList;
-import java.util.List;
-
-@RestController
-@RequestMapping("/api/detalles-pedido")
 public class DetallePedidoController {
 
-    private final List<DetallePedido> lista = new ArrayList<>();
-    private long idCounter = 1;
+    private final DetallePedidoService service;
 
-    @GetMapping
-    public List<DetallePedido> obtenerTodos() {
-        return lista;
+    public DetallePedidoController(DetallePedidoService service) {
+        this.service = service;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<DetallePedido> obtenerPorId(@PathVariable Long id) {
-        return lista.stream()
-                .filter(d -> d.getId().equals(id))
-                .findFirst()
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public void configurarRutas(Javalin app) {
+        app.post("/detalles-pedido", this::crear);
+        app.get("/detalles-pedido/{id}", this::obtener);
+        app.put("/detalles-pedido/{id}", this::actualizar);
+        app.delete("/detalles-pedido/{id}", this::eliminar);
+        app.get("/detalles-pedido", this::listar);
     }
 
-    @GetMapping("/pedido/{pedidoId}")
-    public List<DetallePedido> obtenerPorPedidoId(@PathVariable Long pedidoId) {
-        return lista.stream()
-                .filter(d -> d.getPedidoId().equals(pedidoId))
-                .toList();
+    public void crear(Context ctx) {
+        DetallePedido detalle = ctx.bodyAsClass(DetallePedido.class);
+        service.crear(detalle);
+        ctx.status(201).json(detalle);
     }
 
-    @PostMapping
-    public DetallePedido crear(@RequestBody DetallePedido detallePedido) {
-        detallePedido.setId(idCounter++);
-        lista.add(detallePedido);
-        return detallePedido;
+    public void obtener(Context ctx) {
+        ctx.json(service.obtener(ctx.pathParam("id")));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<DetallePedido> actualizar(@PathVariable Long id, @RequestBody DetallePedido detalleNuevo) {
-        for (int i = 0; i < lista.size(); i++) {
-            if (lista.get(i).getId().equals(id)) {
-                detalleNuevo.setId(id);
-                lista.set(i, detalleNuevo);
-                return ResponseEntity.ok(detalleNuevo);
-            }
-        }
-        return ResponseEntity.notFound().build();
+    public void actualizar(Context ctx) {
+        DetallePedido actualizado = ctx.bodyAsClass(DetallePedido.class);
+        service.actualizar(ctx.pathParam("id"), actualizado);
+        ctx.status(200).json(actualizado);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
-        boolean eliminado = lista.removeIf(d -> d.getId().equals(id));
-        return eliminado ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+    public void eliminar(Context ctx) {
+        service.eliminar(ctx.pathParam("id"));
+        ctx.status(200).result("Detalle de pedido eliminado");
+    }
+
+    public void listar(Context ctx) {
+        ctx.json(service.listar());
     }
 }

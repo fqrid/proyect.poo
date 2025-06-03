@@ -1,67 +1,61 @@
 package com.ejemplo.demo.service;
 
-import com.ejemplo.demo.exception.BadParameterException;
-import com.ejemplo.demo.exception.NotFoundException;
 import com.ejemplo.demo.model.Cliente;
 import com.ejemplo.demo.repository.ClienteRepository;
+import com.ejemplo.demo.exception.BadParameterException;
+import com.ejemplo.demo.exception.NotFoundException;
 
 import java.util.List;
 
 public class ClienteService {
 
-    private final ClienteRepository clienteRepository;
+    private final ClienteRepository repository;
 
-    public ClienteService(ClienteRepository clienteRepository) {
-        this.clienteRepository = clienteRepository;
+    public ClienteService(ClienteRepository repository) {
+        this.repository = repository;
     }
 
-    private void validarCliente(Cliente cliente) {
+    private void validar(Cliente cliente) {
         if (cliente == null) {
-            throw new BadParameterException("Cliente no puede estar vacío");
+            throw new BadParameterException("Cliente no puede ser null");
         }
         if (cliente.getNombre() == null || cliente.getNombre().isEmpty()) {
-            throw new BadParameterException("El nombre del cliente no puede estar vacío");
+            throw new BadParameterException("Nombre requerido");
         }
         if (cliente.getCorreo() == null || cliente.getCorreo().isEmpty()) {
-            throw new BadParameterException("El correo del cliente no puede estar vacío");
+            throw new BadParameterException("Correo requerido");
         }
     }
 
-    public void guardarCliente(Cliente cliente) {
-        this.validarCliente(cliente);
-        this.clienteRepository.agregarCliente(cliente);
+    public void crear(Cliente cliente) {
+        validar(cliente);
+        repository.guardar(cliente);
     }
 
-    public void eliminarCliente(String id) {
-        if (id == null) {
-            throw new NotFoundException("No existe el cliente");
+    public void eliminar(String id) {
+        Cliente eliminado = repository.eliminar(Integer.parseInt(id));
+        if (eliminado == null) {
+            throw new NotFoundException("Cliente no encontrado");
         }
-        Cliente cliente = this.clienteRepository.eliminarCliente(Integer.parseInt(id));
+    }
+
+    public void actualizar(String id, Cliente nuevo) {
+        validar(nuevo);
+        Cliente actualizado = repository.actualizar(Integer.parseInt(id), nuevo);
+        if (actualizado == null) {
+            throw new NotFoundException("Cliente no encontrado");
+        }
+    }
+
+    public Cliente obtener(String id) {
+        Cliente cliente = repository.obtener(Integer.parseInt(id));
         if (cliente == null) {
-            throw new NotFoundException("No existe el cliente");
+            throw new NotFoundException("Cliente no encontrado");
         }
+        return cliente;
     }
 
-    public void actualizarCliente(String id, Cliente clienteActualizar) {
-        if (id == null) {
-            throw new NotFoundException("No existe el cliente");
-        }
-        this.validarCliente(clienteActualizar);
-        Cliente cliente = this.clienteRepository.actualizarCliente(Integer.parseInt(id), clienteActualizar);
-        if (cliente == null) {
-            throw new NotFoundException("No existe el cliente");
-        }
-    }
-
-    public Cliente obtenerCliente(String id) {
-        if (id == null) {
-            throw new NotFoundException("No existe el cliente");
-        }
-
-        return this.clienteRepository.obtenerCliente(Integer.parseInt(id));
-    }
-
-    public List<Cliente> obtenerClientes() {
-        return this.clienteRepository.obtenerClientes();
+    public List<Cliente> listar() {
+        return repository.obtenerTodos();
     }
 }

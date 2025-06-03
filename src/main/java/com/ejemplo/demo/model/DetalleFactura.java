@@ -1,51 +1,60 @@
 package com.ejemplo.demo.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
-@Entity
 public class DetalleFactura {
+    private String id;
+    private String facturaId;
+    private String productoId;
+    private int cantidad;
+    private double precioUnitario;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    public DetalleFactura() {
+    }
 
-    private String producto;
-    private String cantidad;
-    private String precio;
+    public DetalleFactura(String id, String facturaId, String productoId, int cantidad, double precioUnitario) {
+        this.id = id;
+        this.facturaId = facturaId;
+        this.productoId = productoId;
+        this.cantidad = cantidad;
+        this.precioUnitario = precioUnitario;
+    }
 
-    // Getters y Setters
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public String getProducto() {
-        return producto;
+    public String getFacturaId() {
+        return facturaId;
     }
 
-    public void setProducto(String producto) {
-        this.producto = producto;
+    public void setFacturaId(String facturaId) {
+        this.facturaId = facturaId;
     }
 
-    public String getCantidad() {
+    public String getProductoId() {
+        return productoId;
+    }
+
+    public void setProductoId(String productoId) {
+        this.productoId = productoId;
+    }
+
+    public int getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(String cantidad) {
+    public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
     }
 
-    public String getPrecio() {
-        return precio;
+    public double getPrecioUnitario() {
+        return precioUnitario;
     }
 
-    public void setPrecio(String precio) {
-        this.precio = precio;
+    public void setPrecioUnitario(double precioUnitario) {
+        this.precioUnitario = precioUnitario;
     }
 }

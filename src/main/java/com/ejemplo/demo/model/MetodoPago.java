@@ -1,26 +1,18 @@
 package com.ejemplo.demo.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
-@Entity
 public class MetodoPago {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    private String id;
     private String tipo;
-    private String detalle;
+    private String detalles;
 
-    // Getters y Setters
-    public Long getId() {
+    public MetodoPago() {
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -32,11 +24,11 @@ public class MetodoPago {
         this.tipo = tipo;
     }
 
-    public String getDetalle() {
-        return detalle;
+    public String getDetalles() {
+        return detalles;
     }
 
-    public void setDetalle(String detalle) {
-        this.detalle = detalle;
+    public void setDetalles(String detalles) {
+        this.detalles = detalles;
     }
 }

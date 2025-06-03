@@ -1,51 +1,52 @@
 package com.ejemplo.demo.repository;
 
 import com.ejemplo.demo.model.Comentario;
+
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ComentarioRepository {
-    private final ArrayList<Comentario> comentarios = new ArrayList<>();
+    private final List<Comentario> comentarios = new ArrayList<>();
     private final AtomicInteger autoId = new AtomicInteger(1);
 
-    public void agregarComentario(Comentario comentario) {
-        comentario.setId((long) this.autoId.getAndIncrement());
-        this.comentarios.add(comentario);
+    public void guardar(Comentario comentario) {
+        if (comentario.getId() == null) {
+            comentario.setId(autoId.getAndIncrement());
+        }
+        comentarios.add(comentario);
     }
 
-    public Comentario eliminarComentario(int id) {
-        Comentario comentario = null;
+    public Comentario eliminar(int id) {
         for (int i = 0; i < comentarios.size(); i++) {
-            if (comentarios.get(i).getId() == id) {
-                comentario = comentarios.remove(i);
-                break;
+            if (comentarios.get(i).getId().equals(id)) {
+                return comentarios.remove(i);
             }
         }
-        return comentario;
+        return null;
     }
 
-    public Comentario actualizarComentario(int id, Comentario comentarioActualizado) {
-        Comentario comentario = null;
+    public Comentario actualizar(int id, Comentario comentarioNuevo) {
         for (int i = 0; i < comentarios.size(); i++) {
-            if (comentarios.get(i).getId() == id) {
-                comentarios.set(i, comentarioActualizado);
-                comentario = comentarioActualizado;
-                break;
+            if (comentarios.get(i).getId().equals(id)) {
+                comentarioNuevo.setId(id);
+                comentarios.set(i, comentarioNuevo);
+                return comentarioNuevo;
             }
         }
-        return comentario;
+        return null;
     }
 
-    public Comentario obtenerComentario(int id) {
+    public Comentario obtener(int id) {
         for (Comentario comentario : comentarios) {
-            if (comentario.getId() == id) {
+            if (comentario.getId().equals(id)) {
                 return comentario;
             }
         }
         return null;
     }
 
-    public ArrayList<Comentario> obtenerComentarios() {
-        return this.comentarios;
+    public List<Comentario> obtenerTodos() {
+        return new ArrayList<>(comentarios);
     }
 }

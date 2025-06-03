@@ -1,74 +1,48 @@
 package com.ejemplo.demo.controller;
 
+import io.javalin.Javalin;
+import io.javalin.http.Context;
 import com.ejemplo.demo.model.Descuento;
-import static spark.Spark.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.ejemplo.demo.service.DescuentoService;
 
 public class DescuentoController {
 
-    private static List<Descuento> descuentos = new ArrayList<>();
-    private static long idCounter = 1;
+    private final DescuentoService service;
 
-    public static void main(String[] args) {
-        // Obtener todos los descuentos
-        get("/descuentos", (req, res) -> {
-            res.type("application/json");
-            return new com.google.gson.Gson().toJson(descuentos);
-        });
+    public DescuentoController(DescuentoService service) {
+        this.service = service;
+    }
 
-        // Obtener un descuento por ID
-        get("/descuentos/:id", (req, res) -> {
-            long id = Long.parseLong(req.params(":id"));
-            Descuento descuento = descuentos.stream()
-                    .filter(d -> d.getId() == id)
-                    .findFirst()
-                    .orElse(null);
-            if (descuento == null) {
-                res.status(404);
-                return "Descuento no encontrado";
-            }
-            res.type("application/json");
-            return new com.google.gson.Gson().toJson(descuento);
-        });
+    public void configurarRutas(Javalin app) {
+        app.post("/descuentos", this::crear);
+        app.get("/descuentos/{id}", this::obtener);
+        app.put("/descuentos/{id}", this::actualizar);
+        app.delete("/descuentos/{id}", this::eliminar);
+        app.get("/descuentos", this::listar);
+    }
 
-        // Crear un nuevo descuento
-        post("/descuentos", (req, res) -> {
-            Descuento nuevo = new com.google.gson.Gson().fromJson(req.body(), Descuento.class);
-            nuevo.setId(idCounter++);
-            descuentos.add(nuevo);
-            res.status(201);
-            return new com.google.gson.Gson().toJson(nuevo);
-        });
+    public void crear(Context ctx) {
+        Descuento descuento = ctx.bodyAsClass(Descuento.class);
+        service.crear(descuento);
+        ctx.status(201).json(descuento);
+    }
 
-        // Actualizar un descuento existente
-        put("/descuentos/:id", (req, res) -> {
-            long id = Long.parseLong(req.params(":id"));
-            Descuento actualizado = new com.google.gson.Gson().fromJson(req.body(), Descuento.class);
-            Descuento existente = descuentos.stream()
-                    .filter(d -> d.getId() == id)
-                    .findFirst()
-                    .orElse(null);
-            if (existente == null) {
-                res.status(404);
-                return "Descuento no encontrado";
-            }
-            existente.setPorcentaje(actualizado.getPorcentaje());
-            existente.setFechaInicio(actualizado.getFechaInicio());
-            existente.setFechaFin(actualizado.getFechaFin());
-            return new com.google.gson.Gson().toJson(existente);
-        });
+    public void obtener(Context ctx) {
+        ctx.json(service.obtener(ctx.pathParam("id")));
+    }
 
-        // Eliminar un descuento
-        delete("/descuentos/:id", (req, res) -> {
-            long id = Long.parseLong(req.params(":id"));
-            boolean eliminado = descuentos.removeIf(d -> d.getId() == id);
-            if (!eliminado) {
-                res.status(404);
-                return "Descuento no encontrado";
-            }
-            return "Descuento eliminado";
-        });
+    public void actualizar(Context ctx) {
+        Descuento actualizado = ctx.bodyAsClass(Descuento.class);
+        service.actualizar(ctx.pathParam("id"), actualizado);
+        ctx.status(200).json(actualizado);
+    }
+
+    public void eliminar(Context ctx) {
+        service.eliminar(ctx.pathParam("id"));
+        ctx.status(200).result("Descuento eliminado");
+    }
+
+    public void listar(Context ctx) {
+        ctx.json(service.listar());
     }
 }

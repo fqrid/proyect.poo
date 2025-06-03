@@ -2,50 +2,49 @@ package com.ejemplo.demo.repository;
 
 import com.ejemplo.demo.model.Cliente;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ClienteRepository {
-    private final ArrayList<Cliente> clientes = new ArrayList<>();
+
+    private final List<Cliente> clientes = new ArrayList<>();
     private final AtomicInteger autoId = new AtomicInteger(1);
 
-    public void agregarCliente(Cliente cliente) {
-        cliente.setId(this.autoId.getAndIncrement());
-        this.clientes.add(cliente);
+    public void guardar(Cliente cliente) {
+        cliente.setId(autoId.getAndIncrement());
+        clientes.add(cliente);
     }
 
-    public Cliente eliminarCliente(int id) {
-        Cliente cliente = null;
+    public Cliente eliminar(int id) {
         for (int i = 0; i < clientes.size(); i++) {
-            if (clientes.get(i).getId() == id) {
-                cliente = clientes.remove(i);
-                break;
+            if (clientes.get(i).getId().equals(id)) {
+                return clientes.remove(i);
             }
         }
-        return cliente;
+        return null;
     }
 
-    public Cliente actualizarCliente(int id, Cliente clienteActualizado) {
-        Cliente cliente = null;
+    public Cliente actualizar(int id, Cliente clienteActualizado) {
         for (int i = 0; i < clientes.size(); i++) {
-            if (clientes.get(i).getId() == id) {
+            if (clientes.get(i).getId().equals(id)) {
+                clienteActualizado.setId(id); // aseguramos que conserve el ID original
                 clientes.set(i, clienteActualizado);
-                cliente = clienteActualizado;
-                break;
+                return clienteActualizado;
             }
         }
-        return cliente;
+        return null;
     }
 
-    public Cliente obtenerCliente(int id) {
+    public Cliente obtener(int id) {
         for (Cliente cliente : clientes) {
-            if (cliente.getId() == id) {
+            if (cliente.getId().equals(id)) {
                 return cliente;
             }
         }
         return null;
     }
 
-    public ArrayList<Cliente> obtenerClientes() {
-        return this.clientes;
+    public List<Cliente> obtenerTodos() {
+        return new ArrayList<>(clientes);
     }
 }

@@ -1,72 +1,48 @@
 package com.ejemplo.demo.controller;
 
+import io.javalin.Javalin;
+import io.javalin.http.Context;
 import com.ejemplo.demo.model.Direccion;
-import org.springframework.web.bind.annotation.*;
+import com.ejemplo.demo.service.DireccionService;
 
-import java.util.*;
-import java.util.stream.Collectors;
-
-@RestController
-@RequestMapping("/api/direcciones")
 public class DireccionController {
 
-    private final List<Direccion> lista = new ArrayList<>();
-    private long idCounter = 1;
+    private final DireccionService service;
 
-    @GetMapping
-    public List<Direccion> obtenerTodas() {
-        return lista;
+    public DireccionController(DireccionService service) {
+        this.service = service;
     }
 
-    @GetMapping("/{id}")
-    public Direccion obtenerPorId(@PathVariable Long id) {
-        return lista.stream()
-                .filter(d -> d.getId().equals(id))
-                .findFirst()
-                .orElse(null);
+    public void configurarRutas(Javalin app) {
+        app.post("/direcciones", this::crear);
+        app.get("/direcciones/{id}", this::obtener);
+        app.put("/direcciones/{id}", this::actualizar);
+        app.delete("/direcciones/{id}", this::eliminar);
+        app.get("/direcciones", this::listar);
     }
 
-    @GetMapping("/cliente/{clienteId}")
-    public List<Direccion> obtenerPorClienteId(@PathVariable Long clienteId) {
-        return lista.stream()
-                .filter(d -> d.getClienteId().equals(clienteId))
-                .collect(Collectors.toList());
+    public void crear(Context ctx) {
+        Direccion direccion = ctx.bodyAsClass(Direccion.class);
+        service.crear(direccion);
+        ctx.status(201).json(direccion);
     }
 
-    @PostMapping
-    public Direccion crear(@RequestBody Direccion direccion) {
-        direccion.setId(idCounter++);
-        lista.add(direccion);
-        return direccion;
+    public void obtener(Context ctx) {
+        ctx.json(service.obtener(ctx.pathParam("id")));
     }
 
-    @PostMapping("/cliente/{clienteId}")
-    public Direccion crearParaCliente(@PathVariable Long clienteId, @RequestBody Direccion direccion) {
-        direccion.setId(idCounter++);
-        direccion.setClienteId(clienteId);
-        lista.add(direccion);
-        return direccion;
+    public void actualizar(Context ctx) {
+        Direccion actualizada = ctx.bodyAsClass(Direccion.class);
+        service.actualizar(ctx.pathParam("id"), actualizada);
+        ctx.status(200).json(actualizada);
     }
 
-    @PutMapping("/{id}")
-    public Direccion actualizar(@PathVariable Long id, @RequestBody Direccion direccionNueva) {
-        for (int i = 0; i < lista.size(); i++) {
-            if (lista.get(i).getId().equals(id)) {
-                direccionNueva.setId(id);
-                lista.set(i, direccionNueva);
-                return direccionNueva;
-            }
-        }
-        return null;
+    public void eliminar(Context ctx) {
+        service.eliminar(ctx.pathParam("id"));
+        ctx.status(200).result("Dirección eliminada");
     }
 
-    @DeleteMapping("/{id}")
-    public void eliminar(@PathVariable Long id) {
-        lista.removeIf(d -> d.getId().equals(id));
-    }
-
-    @DeleteMapping("/cliente/{clienteId}")
-    public void eliminarPorCliente(@PathVariable Long clienteId) {
-        lista.removeIf(d -> d.getClienteId().equals(clienteId));
+    public void listar(Context ctx) {
+        ctx.json(service.listar());
     }
 }
