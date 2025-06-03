@@ -1,35 +1,25 @@
 package com.ejemplo.demo.repository;
 
 import com.ejemplo.demo.model.Producto;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class ProductoRepository {
-    private final List<Producto> productos = new ArrayList<>();
-    private long contadorId = 1;
-
-    public List<Producto> findAll() {
-        return productos;
-    }
-
-    public Optional<Producto> findById(Long id) {
-        return productos.stream().filter(p -> p.getId().equals(id)).findFirst();
-    }
+    private final Map<String, Producto> datos = new HashMap<>();
 
     public Producto save(Producto producto) {
-        if (producto.getId() == null) {
-            producto.setId(contadorId++);
-            productos.add(producto);
-        } else {
-            deleteById(producto.getId());
-            productos.add(producto);
-        }
+        datos.put(producto.getId(), producto);
         return producto;
     }
 
-    public void deleteById(Long id) {
-        productos.removeIf(p -> p.getId().equals(id));
+    public Optional<Producto> findById(String id) {
+        return Optional.ofNullable(datos.get(id));
+    }
+
+    public List<Producto> findAll() {
+        return new ArrayList<>(datos.values());
+    }
+
+    public void deleteById(String id) {
+        datos.remove(id);
     }
 }

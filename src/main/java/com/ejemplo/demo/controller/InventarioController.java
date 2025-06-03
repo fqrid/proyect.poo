@@ -1,52 +1,48 @@
 package com.ejemplo.demo.controller;
 
-import io.javalin.Javalin;
-import io.javalin.http.Context;
 import com.ejemplo.demo.model.Inventario;
 import com.ejemplo.demo.service.InventarioService;
+import io.javalin.Javalin;
+import io.javalin.http.Context;
 
 public class InventarioController {
 
-    private final InventarioService inventarioService;
+    private final InventarioService service;
 
-    public InventarioController(InventarioService inventarioService) {
-        this.inventarioService = inventarioService;
+    public InventarioController(InventarioService service) {
+        this.service = service;
     }
 
     public void configurarRutas(Javalin app) {
-        app.post("/inventarios", this::guardarInventario);
-        app.get("/inventarios/{id}", this::obtenerInventario);
-        app.delete("/inventarios/{id}", this::eliminarInventario);
-        app.put("/inventarios/{id}", this::actualizarInventario);
-        app.get("/inventarios", this::listarInventarios);
+        app.post("/inventarios", this::crear);
+        app.get("/inventarios/{id}", this::obtener);
+        app.put("/inventarios/{id}", this::actualizar);
+        app.delete("/inventarios/{id}", this::eliminar);
+        app.get("/inventarios", this::listar);
     }
 
-    public void guardarInventario(Context ctx) {
-        ctx.contentType("application/json");
-        Inventario inventario = ctx.bodyAsClass(Inventario.class);
-        inventarioService.guardarInventario(inventario);
-        ctx.status(201).json(inventario);
+    public void crear(Context ctx) {
+        Inventario i = ctx.bodyAsClass(Inventario.class);
+        service.crear(i);
+        ctx.status(201).json(i);
     }
 
-    public void obtenerInventario(Context ctx) {
-        String id = ctx.pathParam("id");
-        ctx.json(inventarioService.obtenerInventario(id));
+    public void obtener(Context ctx) {
+        ctx.json(service.obtener(ctx.pathParam("id")));
     }
 
-    public void eliminarInventario(Context ctx) {
-        String id = ctx.pathParam("id");
-        inventarioService.eliminarInventario(id);
-        ctx.status(200).result("Inventario eliminado con ID: " + id);
+    public void actualizar(Context ctx) {
+        Inventario i = ctx.bodyAsClass(Inventario.class);
+        service.actualizar(ctx.pathParam("id"), i);
+        ctx.json(i);
     }
 
-    public void actualizarInventario(Context ctx) {
-        String id = ctx.pathParam("id");
-        Inventario inventario = ctx.bodyAsClass(Inventario.class);
-        inventarioService.actualizarInventario(id, inventario);
-        ctx.status(200).json(inventario);
+    public void eliminar(Context ctx) {
+        service.eliminar(ctx.pathParam("id"));
+        ctx.result("Inventario eliminado");
     }
 
-    public void listarInventarios(Context ctx) {
-        ctx.json(inventarioService.obtenerInventarios());
+    public void listar(Context ctx) {
+        ctx.json(service.listar());
     }
 }

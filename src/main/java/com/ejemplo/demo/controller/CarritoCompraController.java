@@ -1,16 +1,16 @@
 package com.ejemplo.demo.controller;
 
-import io.javalin.Javalin;
-import io.javalin.http.Context;
 import com.ejemplo.demo.model.CarritoCompra;
 import com.ejemplo.demo.service.CarritoCompraService;
+import io.javalin.Javalin;
+import io.javalin.http.Context;
 
 public class CarritoCompraController {
 
-    private final CarritoCompraService carritoService;
+    private final CarritoCompraService service;
 
-    public CarritoCompraController(CarritoCompraService carritoService) {
-        this.carritoService = carritoService;
+    public CarritoCompraController(CarritoCompraService service) {
+        this.service = service;
     }
 
     public void configurarRutas(Javalin app) {
@@ -23,26 +23,26 @@ public class CarritoCompraController {
 
     public void crear(Context ctx) {
         CarritoCompra carrito = ctx.bodyAsClass(CarritoCompra.class);
-        carritoService.crear(carrito);
+        service.crear(carrito);
         ctx.status(201).json(carrito);
     }
 
     public void obtener(Context ctx) {
-        ctx.json(carritoService.obtener(ctx.pathParam("id")));
+        ctx.json(service.obtener(ctx.pathParam("id")));
     }
 
     public void actualizar(Context ctx) {
         CarritoCompra actualizado = ctx.bodyAsClass(CarritoCompra.class);
-        carritoService.actualizar(ctx.pathParam("id"), actualizado);
+        service.actualizar(ctx.pathParam("id"), actualizado);
         ctx.status(200).json(actualizado);
     }
 
     public void eliminar(Context ctx) {
-        carritoService.eliminar(ctx.pathParam("id"));
+        service.eliminar(ctx.pathParam("id"));
         ctx.status(200).result("Carrito eliminado");
     }
 
     public void listar(Context ctx) {
-        ctx.json(carritoService.listar());
+        ctx.json(service.listar());
     }
 }

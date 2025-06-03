@@ -1,48 +1,25 @@
+// FacturaController.java
 package com.ejemplo.demo.controller;
 
-import io.javalin.Javalin;
-import io.javalin.http.Context;
 import com.ejemplo.demo.model.Factura;
 import com.ejemplo.demo.service.FacturaService;
+import io.javalin.Javalin;
 
 public class FacturaController {
+    private final FacturaService facturaService;
 
-    private final FacturaService service;
-
-    public FacturaController(FacturaService service) {
-        this.service = service;
+    public FacturaController(FacturaService facturaService) {
+        this.facturaService = facturaService;
     }
 
-    public void configurarRutas(Javalin app) {
-        app.post("/facturas", this::crear);
-        app.get("/facturas/{id}", this::obtener);
-        app.put("/facturas/{id}", this::actualizar);
-        app.delete("/facturas/{id}", this::eliminar);
-        app.get("/facturas", this::listar);
-    }
-
-    public void crear(Context ctx) {
-        Factura factura = ctx.bodyAsClass(Factura.class);
-        service.crear(factura);
-        ctx.status(201).json(factura);
-    }
-
-    public void obtener(Context ctx) {
-        ctx.json(service.obtener(ctx.pathParam("id")));
-    }
-
-    public void actualizar(Context ctx) {
-        Factura actualizada = ctx.bodyAsClass(Factura.class);
-        service.actualizar(ctx.pathParam("id"), actualizada);
-        ctx.status(200).json(actualizada);
-    }
-
-    public void eliminar(Context ctx) {
-        service.eliminar(ctx.pathParam("id"));
-        ctx.status(200).result("Factura eliminada");
-    }
-
-    public void listar(Context ctx) {
-        ctx.json(service.listar());
+    public void registrarRutas(Javalin app) {
+        app.get("/facturas", ctx -> ctx.json(facturaService.listar()));
+        app.get("/facturas/{id}", ctx -> ctx.json(facturaService.obtener(ctx.pathParam("id"))));
+        app.post("/facturas", ctx -> ctx.json(facturaService.crear(ctx.bodyAsClass(Factura.class))));
+        app.put("/facturas/{id}", ctx -> ctx.json(facturaService.actualizar(ctx.pathParam("id"), ctx.bodyAsClass(Factura.class))));
+        app.delete("/facturas/{id}", ctx -> {
+            facturaService.eliminar(ctx.pathParam("id"));
+            ctx.status(204);
+        });
     }
 }

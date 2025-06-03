@@ -1,3 +1,4 @@
+// Descuento.java
 package com.ejemplo.demo.model;
 
 public class Descuento {

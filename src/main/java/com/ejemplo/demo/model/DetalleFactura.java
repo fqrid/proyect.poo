@@ -1,3 +1,4 @@
+// DetalleFactura.java
 package com.ejemplo.demo.model;
 
 public class DetalleFactura {

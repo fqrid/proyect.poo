@@ -4,26 +4,22 @@ import com.ejemplo.demo.model.Pago;
 import java.util.*;
 
 public class PagoRepository {
-    private final Map<Long, Pago> data = new HashMap<>();
-    private long currentId = 1;
+    private final Map<String, Pago> datos = new HashMap<>();
 
-    public Pago save(Pago item) {
-        if (item.getId() == null) {
-            item.setId(currentId++);
-        }
-        data.put(item.getId(), item);
-        return item;
+    public Pago save(Pago pago) {
+        datos.put(pago.getId(), pago);
+        return pago;
     }
 
-    public Optional<Pago> findById(Long id) {
-        return Optional.ofNullable(data.get(id));
+    public Optional<Pago> findById(String id) {
+        return Optional.ofNullable(datos.get(id));
     }
 
     public List<Pago> findAll() {
-        return new ArrayList<>(data.values());
+        return new ArrayList<>(datos.values());
     }
 
-    public void deleteById(Long id) {
-        data.remove(id);
+    public void deleteById(String id) {
+        datos.remove(id);
     }
 }

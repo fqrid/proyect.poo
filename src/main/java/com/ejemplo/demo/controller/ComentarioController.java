@@ -1,48 +1,25 @@
+// ComentarioController.java
 package com.ejemplo.demo.controller;
 
-import io.javalin.Javalin;
-import io.javalin.http.Context;
 import com.ejemplo.demo.model.Comentario;
 import com.ejemplo.demo.service.ComentarioService;
+import io.javalin.Javalin;
 
 public class ComentarioController {
+    private final ComentarioService comentarioService;
 
-    private final ComentarioService service;
-
-    public ComentarioController(ComentarioService service) {
-        this.service = service;
+    public ComentarioController(ComentarioService comentarioService) {
+        this.comentarioService = comentarioService;
     }
 
-    public void configurarRutas(Javalin app) {
-        app.post("/comentarios", this::crear);
-        app.get("/comentarios/{id}", this::obtener);
-        app.put("/comentarios/{id}", this::actualizar);
-        app.delete("/comentarios/{id}", this::eliminar);
-        app.get("/comentarios", this::listar);
-    }
-
-    public void crear(Context ctx) {
-        Comentario comentario = ctx.bodyAsClass(Comentario.class);
-        service.crear(comentario);
-        ctx.status(201).json(comentario);
-    }
-
-    public void obtener(Context ctx) {
-        ctx.json(service.obtener(ctx.pathParam("id")));
-    }
-
-    public void actualizar(Context ctx) {
-        Comentario actualizado = ctx.bodyAsClass(Comentario.class);
-        service.actualizar(ctx.pathParam("id"), actualizado);
-        ctx.status(200).json(actualizado);
-    }
-
-    public void eliminar(Context ctx) {
-        service.eliminar(ctx.pathParam("id"));
-        ctx.status(200).result("Comentario eliminado");
-    }
-
-    public void listar(Context ctx) {
-        ctx.json(service.listar());
+    public void registrarRutas(Javalin app) {
+        app.get("/comentarios", ctx -> ctx.json(comentarioService.listar()));
+        app.get("/comentarios/{id}", ctx -> ctx.json(comentarioService.obtener(ctx.pathParam("id"))));
+        app.post("/comentarios", ctx -> ctx.json(comentarioService.crear(ctx.bodyAsClass(Comentario.class))));
+        app.put("/comentarios/{id}", ctx -> ctx.json(comentarioService.actualizar(ctx.pathParam("id"), ctx.bodyAsClass(Comentario.class))));
+        app.delete("/comentarios/{id}", ctx -> {
+            comentarioService.eliminar(ctx.pathParam("id"));
+            ctx.status(204);
+        });
     }
 }

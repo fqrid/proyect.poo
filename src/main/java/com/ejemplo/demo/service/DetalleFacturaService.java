@@ -13,30 +13,32 @@ public class DetalleFacturaService {
         this.repository = repository;
     }
 
-    public List<DetalleFactura> obtenerTodos() {
+    public DetalleFactura crear(DetalleFactura detalle) {
+        repository.agregar(detalle);
+        return detalle;
+    }
+
+    public DetalleFactura obtener(String id) {
+        return repository.obtenerPorId(id)
+                .orElseThrow(() -> new NotFoundException("DetalleFactura no encontrado"));
+    }
+
+    public List<DetalleFactura> listar() {
         return repository.obtenerTodos();
     }
 
-    public DetalleFactura obtenerPorId(Long id) {
-        return repository.obtenerPorId(id)
-                .orElseThrow(() -> new NotFoundException("DetalleFactura no encontrado con id: " + id));
+    public DetalleFactura actualizar(String id, DetalleFactura nuevo) {
+        DetalleFactura existente = obtener(id);
+        existente.setCantidad(nuevo.getCantidad());
+        existente.setPrecioUnitario(nuevo.getPrecioUnitario());
+        existente.setFacturaId(nuevo.getFacturaId());
+        existente.setProductoId(nuevo.getProductoId());
+        repository.actualizar(existente);
+        return existente;
     }
 
-    public void agregar(DetalleFactura detalleFactura) {
-        repository.agregar(detalleFactura);
-    }
-
-    public void eliminarPorId(Long id) {
+    public void eliminar(String id) {
         boolean eliminado = repository.eliminarPorId(id);
-        if (!eliminado) {
-            throw new NotFoundException("DetalleFactura no encontrado con id: " + id);
-        }
-    }
-
-    public void actualizar(DetalleFactura detalleFactura) {
-        boolean actualizado = repository.actualizar(detalleFactura);
-        if (!actualizado) {
-            throw new NotFoundException("DetalleFactura no encontrado con id: " + detalleFactura.getId());
-        }
+        if (!eliminado) throw new NotFoundException("DetalleFactura no encontrado");
     }
 }

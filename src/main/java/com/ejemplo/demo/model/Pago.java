@@ -1,12 +1,20 @@
+// Pago.java
 package com.ejemplo.demo.model;
 
 public class Pago {
     private String id;
+    private String pedidoId;
     private double monto;
-    private String metodoId;
-    private String estado;
+    private String metodo;
 
     public Pago() {
+    }
+
+    public Pago(String id, String pedidoId, double monto, String metodo) {
+        this.id = id;
+        this.pedidoId = pedidoId;
+        this.monto = monto;
+        this.metodo = metodo;
     }
 
     public String getId() {
@@ -17,6 +25,14 @@ public class Pago {
         this.id = id;
     }
 
+    public String getPedidoId() {
+        return pedidoId;
+    }
+
+    public void setPedidoId(String pedidoId) {
+        this.pedidoId = pedidoId;
+    }
+
     public double getMonto() {
         return monto;
     }
@@ -25,19 +41,11 @@ public class Pago {
         this.monto = monto;
     }
 
-    public String getMetodoId() {
-        return metodoId;
+    public String getMetodo() {
+        return metodo;
     }
 
-    public void setMetodoId(String metodoId) {
-        this.metodoId = metodoId;
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
+    public void setMetodo(String metodo) {
+        this.metodo = metodo;
     }
 }

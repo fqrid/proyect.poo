@@ -4,26 +4,22 @@ import com.ejemplo.demo.model.Resena;
 import java.util.*;
 
 public class ResenaRepository {
-    private final Map<Long, Resena> data = new HashMap<>();
-    private long currentId = 1;
+    private final Map<String, Resena> datos = new HashMap<>();
 
-    public Resena save(Resena item) {
-        if (item.getId() == null) {
-            item.setId(currentId++);
-        }
-        data.put(item.getId(), item);
-        return item;
+    public Resena save(Resena obj) {
+        datos.put(obj.getId(), obj);
+        return obj;
     }
 
-    public Optional<Resena> findById(Long id) {
-        return Optional.ofNullable(data.get(id));
+    public Optional<Resena> findById(String id) {
+        return Optional.ofNullable(datos.get(id));
     }
 
     public List<Resena> findAll() {
-        return new ArrayList<>(data.values());
+        return new ArrayList<>(datos.values());
     }
 
-    public void deleteById(Long id) {
-        data.remove(id);
+    public void deleteById(String id) {
+        datos.remove(id);
     }
 }

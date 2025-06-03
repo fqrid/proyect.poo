@@ -1,48 +1,48 @@
 package com.ejemplo.demo.controller;
 
-import io.javalin.Javalin;
-import io.javalin.http.Context;
 import com.ejemplo.demo.model.Rol;
 import com.ejemplo.demo.service.RolService;
+import io.javalin.Javalin;
+import io.javalin.http.Context;
 
 public class RolController {
 
-    private final RolService rolService;
+    private final RolService service;
 
-    public RolController(RolService rolService) {
-        this.rolService = rolService;
+    public RolController(RolService service) {
+        this.service = service;
     }
 
     public void configurarRutas(Javalin app) {
-        app.post("/roles", this::guardarRol);
-        app.get("/roles/{id}", this::obtenerRol);
-        app.delete("/roles/{id}", this::eliminarRol);
-        app.put("/roles/{id}", this::actualizarRol);
-        app.get("/roles", this::listarRoles);
+        app.post("/roles", this::crear);
+        app.get("/roles/{id}", this::obtener);
+        app.put("/roles/{id}", this::actualizar);
+        app.delete("/roles/{id}", this::eliminar);
+        app.get("/roles", this::listar);
     }
 
-    public void guardarRol(Context ctx) {
-        Rol rol = ctx.bodyAsClass(Rol.class);
-        rolService.guardarRol(rol);
-        ctx.status(201).json(rol);
+    public void crear(Context ctx) {
+        Rol r = ctx.bodyAsClass(Rol.class);
+        service.crear(r);
+        ctx.status(201).json(r);
     }
 
-    public void obtenerRol(Context ctx) {
-        ctx.json(rolService.obtenerRol(ctx.pathParam("id")));
+    public void obtener(Context ctx) {
+        ctx.json(service.obtener(ctx.pathParam("id")));
     }
 
-    public void eliminarRol(Context ctx) {
-        rolService.eliminarRol(ctx.pathParam("id"));
-        ctx.status(200).result("Rol eliminado");
+    public void actualizar(Context ctx) {
+        Rol r = ctx.bodyAsClass(Rol.class);
+        service.actualizar(ctx.pathParam("id"), r);
+        ctx.json(r);
     }
 
-    public void actualizarRol(Context ctx) {
-        Rol rol = ctx.bodyAsClass(Rol.class);
-        rolService.actualizarRol(ctx.pathParam("id"), rol);
-        ctx.status(200).json(rol);
+    public void eliminar(Context ctx) {
+        service.eliminar(ctx.pathParam("id"));
+        ctx.result("Rol eliminado");
     }
 
-    public void listarRoles(Context ctx) {
-        ctx.json(rolService.obtenerRoles());
+    public void listar(Context ctx) {
+        ctx.json(service.listar());
     }
 }

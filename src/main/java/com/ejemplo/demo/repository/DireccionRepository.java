@@ -1,52 +1,25 @@
 package com.ejemplo.demo.repository;
 
 import com.ejemplo.demo.model.Direccion;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.*;
 
 public class DireccionRepository {
-    private final List<Direccion> direcciones = new ArrayList<>();
-    private final AtomicInteger autoId = new AtomicInteger(1);
+    private final Map<String, Direccion> datos = new HashMap<>();
 
-    public void guardar(Direccion d) {
-        if (d.getId() == null) {
-            d.setId(autoId.getAndIncrement());
-        }
-        direcciones.add(d);
+    public Direccion save(Direccion obj) {
+        datos.put(obj.getId(), obj);
+        return obj;
     }
 
-    public Direccion eliminar(int id) {
-        for (int i = 0; i < direcciones.size(); i++) {
-            if (direcciones.get(i).getId().equals(id)) {
-                return direcciones.remove(i);
-            }
-        }
-        return null;
+    public Optional<Direccion> findById(String id) {
+        return Optional.ofNullable(datos.get(id));
     }
 
-    public Direccion actualizar(int id, Direccion nuevo) {
-        for (int i = 0; i < direcciones.size(); i++) {
-            if (direcciones.get(i).getId().equals(id)) {
-                nuevo.setId(id);
-                direcciones.set(i, nuevo);
-                return nuevo;
-            }
-        }
-        return null;
+    public List<Direccion> findAll() {
+        return new ArrayList<>(datos.values());
     }
 
-    public Direccion obtener(int id) {
-        for (Direccion d : direcciones) {
-            if (d.getId().equals(id)) {
-                return d;
-            }
-        }
-        return null;
-    }
-
-    public List<Direccion> obtenerTodos() {
-        return new ArrayList<>(direcciones);
+    public void deleteById(String id) {
+        datos.remove(id);
     }
 }

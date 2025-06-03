@@ -4,26 +4,22 @@ import com.ejemplo.demo.model.MetodoPago;
 import java.util.*;
 
 public class MetodoPagoRepository {
-    private final Map<Long, MetodoPago> data = new HashMap<>();
-    private long currentId = 1;
+    private final Map<String, MetodoPago> datos = new HashMap<>();
 
-    public MetodoPago save(MetodoPago item) {
-        if (item.getId() == null) {
-            item.setId(currentId++);
-        }
-        data.put(item.getId(), item);
-        return item;
+    public MetodoPago save(MetodoPago metodo) {
+        datos.put(metodo.getId(), metodo);
+        return metodo;
     }
 
-    public Optional<MetodoPago> findById(Long id) {
-        return Optional.ofNullable(data.get(id));
+    public Optional<MetodoPago> findById(String id) {
+        return Optional.ofNullable(datos.get(id));
     }
 
     public List<MetodoPago> findAll() {
-        return new ArrayList<>(data.values());
+        return new ArrayList<>(datos.values());
     }
 
-    public void deleteById(Long id) {
-        data.remove(id);
+    public void deleteById(String id) {
+        datos.remove(id);
     }
 }

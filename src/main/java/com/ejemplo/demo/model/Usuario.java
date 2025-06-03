@@ -3,10 +3,16 @@ package com.ejemplo.demo.model;
 public class Usuario {
     private String id;
     private String nombre;
-    private String correo;
-    private String rolId;
+    private String email;
+    private String contrasena;
 
-    public Usuario() {
+    public Usuario() {}
+
+    public Usuario(String id, String nombre, String email, String contrasena) {
+        this.id = id;
+        this.nombre = nombre;
+        this.email = email;
+        this.contrasena = contrasena;
     }
 
     public String getId() {
@@ -25,19 +31,19 @@ public class Usuario {
         this.nombre = nombre;
     }
 
-    public String getCorreo() {
-        return correo;
+    public String getEmail() {
+        return email;
     }
 
-    public void setCorreo(String correo) {
-        this.correo = correo;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getRolId() {
-        return rolId;
+    public String getContrasena() {
+        return contrasena;
     }
 
-    public void setRolId(String rolId) {
-        this.rolId = rolId;
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
     }
 }

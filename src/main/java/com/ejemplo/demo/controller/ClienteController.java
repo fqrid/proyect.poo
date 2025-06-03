@@ -6,11 +6,10 @@ import com.ejemplo.demo.model.Cliente;
 import com.ejemplo.demo.service.ClienteService;
 
 public class ClienteController {
+    private final ClienteService service;
 
-    private final ClienteService servicio;
-
-    public ClienteController(ClienteService servicio) {
-        this.servicio = servicio;
+    public ClienteController(ClienteService service) {
+        this.service = service;
     }
 
     public void configurarRutas(Javalin app) {
@@ -23,26 +22,26 @@ public class ClienteController {
 
     public void crear(Context ctx) {
         Cliente cliente = ctx.bodyAsClass(Cliente.class);
-        servicio.crear(cliente);
+        service.crear(cliente);
         ctx.status(201).json(cliente);
     }
 
     public void obtener(Context ctx) {
-        ctx.json(servicio.obtener(ctx.pathParam("id")));
+        ctx.json(service.obtener(ctx.pathParam("id")));
     }
 
     public void actualizar(Context ctx) {
         Cliente actualizado = ctx.bodyAsClass(Cliente.class);
-        servicio.actualizar(ctx.pathParam("id"), actualizado);
+        service.actualizar(ctx.pathParam("id"), actualizado);
         ctx.status(200).json(actualizado);
     }
 
     public void eliminar(Context ctx) {
-        servicio.eliminar(ctx.pathParam("id"));
+        service.eliminar(ctx.pathParam("id"));
         ctx.status(200).result("Cliente eliminado");
     }
 
     public void listar(Context ctx) {
-        ctx.json(servicio.listar());
+        ctx.json(service.listar());
     }
 }

@@ -4,26 +4,22 @@ import com.ejemplo.demo.model.Usuario;
 import java.util.*;
 
 public class UsuarioRepository {
-    private final Map<Long, Usuario> usuarios = new HashMap<>();
-    private long currentId = 1;
+    private final Map<String, Usuario> datos = new HashMap<>();
 
     public Usuario save(Usuario usuario) {
-        if (usuario.getId() == null) {
-            usuario.setId(currentId++);
-        }
-        usuarios.put(usuario.getId(), usuario);
+        datos.put(usuario.getId(), usuario);
         return usuario;
     }
 
-    public Optional<Usuario> findById(Long id) {
-        return Optional.ofNullable(usuarios.get(id));
+    public Optional<Usuario> findById(String id) {
+        return Optional.ofNullable(datos.get(id));
     }
 
     public List<Usuario> findAll() {
-        return new ArrayList<>(usuarios.values());
+        return new ArrayList<>(datos.values());
     }
 
-    public void deleteById(Long id) {
-        usuarios.remove(id);
+    public void deleteById(String id) {
+        datos.remove(id);
     }
 }

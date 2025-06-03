@@ -1,24 +1,46 @@
+// Direccion.java
 package com.ejemplo.demo.model;
 
 public class Direccion {
-    private Integer id;
+    private String id;
+    private String clienteId;
+    private String calle;
     private String ciudad;
-    private String direccion;
+    private String codigoPostal;
 
-    public Direccion() {}
-
-    public Direccion(Integer id, String ciudad, String direccion) {
-        this.id = id;
-        this.ciudad = ciudad;
-        this.direccion = direccion;
+    public Direccion() {
     }
 
-    public Integer getId() {
+    public Direccion(String id, String clienteId, String calle, String ciudad, String codigoPostal) {
+        this.id = id;
+        this.clienteId = clienteId;
+        this.calle = calle;
+        this.ciudad = ciudad;
+        this.codigoPostal = codigoPostal;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
+    }
+
+    public String getClienteId() {
+        return clienteId;
+    }
+
+    public void setClienteId(String clienteId) {
+        this.clienteId = clienteId;
+    }
+
+    public String getCalle() {
+        return calle;
+    }
+
+    public void setCalle(String calle) {
+        this.calle = calle;
     }
 
     public String getCiudad() {
@@ -29,11 +51,11 @@ public class Direccion {
         this.ciudad = ciudad;
     }
 
-    public String getDireccion() {
-        return direccion;
+    public String getCodigoPostal() {
+        return codigoPostal;
     }
 
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
+    public void setCodigoPostal(String codigoPostal) {
+        this.codigoPostal = codigoPostal;
     }
 }

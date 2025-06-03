@@ -1,30 +1,25 @@
 package com.ejemplo.demo.model;
 
 public class Producto {
-    private Long id;
+    private String id;
     private String nombre;
-    private String descripcion;
     private double precio;
-    private int cantidad;
-    private String categoria;
+    private int stock;
 
-    public Producto() {
-    }
+    public Producto() {}
 
-    public Producto(Long id, String nombre, String descripcion, double precio, int cantidad, String categoria) {
+    public Producto(String id, String nombre, double precio, int stock) {
         this.id = id;
         this.nombre = nombre;
-        this.descripcion = descripcion;
         this.precio = precio;
-        this.cantidad = cantidad;
-        this.categoria = categoria;
+        this.stock = stock;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -36,14 +31,6 @@ public class Producto {
         this.nombre = nombre;
     }
 
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
     public double getPrecio() {
         return precio;
     }
@@ -52,19 +39,11 @@ public class Producto {
         this.precio = precio;
     }
 
-    public int getCantidad() {
-        return cantidad;
+    public int getStock() {
+        return stock;
     }
 
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
-    }
-
-    public String getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 }

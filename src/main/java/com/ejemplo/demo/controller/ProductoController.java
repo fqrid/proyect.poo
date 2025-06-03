@@ -1,52 +1,48 @@
 package com.ejemplo.demo.controller;
 
-import io.javalin.Javalin;
-import io.javalin.http.Context;
 import com.ejemplo.demo.model.Producto;
 import com.ejemplo.demo.service.ProductoService;
+import io.javalin.Javalin;
+import io.javalin.http.Context;
 
 public class ProductoController {
 
-    private final ProductoService productoService;
+    private final ProductoService service;
 
-    public ProductoController(ProductoService productoService) {
-        this.productoService = productoService;
+    public ProductoController(ProductoService service) {
+        this.service = service;
     }
 
     public void configurarRutas(Javalin app) {
-        app.post("/productos", this::guardarProducto);
-        app.get("/productos/{id}", this::obtenerProducto);
-        app.delete("/productos/{id}", this::eliminarProducto);
-        app.put("/productos/{id}", this::actualizarProducto);
-        app.get("/productos", this::listarProductos);
+        app.post("/productos", this::crear);
+        app.get("/productos/{id}", this::obtener);
+        app.put("/productos/{id}", this::actualizar);
+        app.delete("/productos/{id}", this::eliminar);
+        app.get("/productos", this::listar);
     }
 
-    public void guardarProducto(Context ctx) {
-        ctx.contentType("application/json");
+    public void crear(Context ctx) {
         Producto producto = ctx.bodyAsClass(Producto.class);
-        productoService.guardarProducto(producto);
+        service.crear(producto);
         ctx.status(201).json(producto);
     }
 
-    public void obtenerProducto(Context ctx) {
-        String id = ctx.pathParam("id");
-        ctx.json(productoService.obtenerProducto(id));
+    public void obtener(Context ctx) {
+        ctx.json(service.obtener(ctx.pathParam("id")));
     }
 
-    public void eliminarProducto(Context ctx) {
-        String id = ctx.pathParam("id");
-        productoService.eliminarProducto(id);
-        ctx.status(200).result("Producto eliminado con ID: " + id);
+    public void actualizar(Context ctx) {
+        Producto actualizado = ctx.bodyAsClass(Producto.class);
+        service.actualizar(ctx.pathParam("id"), actualizado);
+        ctx.status(200).json(actualizado);
     }
 
-    public void actualizarProducto(Context ctx) {
-        String id = ctx.pathParam("id");
-        Producto producto = ctx.bodyAsClass(Producto.class);
-        productoService.actualizarProducto(id, producto);
-        ctx.status(200).json(producto);
+    public void eliminar(Context ctx) {
+        service.eliminar(ctx.pathParam("id"));
+        ctx.status(200).result("Producto eliminado");
     }
 
-    public void listarProductos(Context ctx) {
-        ctx.json(productoService.obtenerProductos());
+    public void listar(Context ctx) {
+        ctx.json(service.listar());
     }
 }

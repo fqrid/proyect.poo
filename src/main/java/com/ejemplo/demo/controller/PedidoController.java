@@ -7,46 +7,42 @@ import com.ejemplo.demo.service.PedidoService;
 
 public class PedidoController {
 
-    private final PedidoService pedidoService;
+    private final PedidoService service;
 
-    public PedidoController(PedidoService pedidoService) {
-        this.pedidoService = pedidoService;
+    public PedidoController(PedidoService service) {
+        this.service = service;
     }
 
     public void configurarRutas(Javalin app) {
-        app.post("/pedidos", this::guardarPedido);
-        app.get("/pedidos/{id}", this::obtenerPedido);
-        app.delete("/pedidos/{id}", this::eliminarPedido);
-        app.put("/pedidos/{id}", this::actualizarPedido);
-        app.get("/pedidos", this::listarPedidos);
+        app.post("/pedidos", this::crear);
+        app.get("/pedidos/{id}", this::obtener);
+        app.put("/pedidos/{id}", this::actualizar);
+        app.delete("/pedidos/{id}", this::eliminar);
+        app.get("/pedidos", this::listar);
     }
 
-    public void guardarPedido(Context ctx) {
-        ctx.contentType("application/json");
+    public void crear(Context ctx) {
         Pedido pedido = ctx.bodyAsClass(Pedido.class);
-        pedidoService.guardarPedido(pedido);
+        service.crear(pedido);
         ctx.status(201).json(pedido);
     }
 
-    public void obtenerPedido(Context ctx) {
-        String id = ctx.pathParam("id");
-        ctx.json(pedidoService.obtenerPedido(id));
+    public void obtener(Context ctx) {
+        ctx.json(service.obtener(ctx.pathParam("id")));
     }
 
-    public void eliminarPedido(Context ctx) {
-        String id = ctx.pathParam("id");
-        pedidoService.eliminarPedido(id);
-        ctx.status(200).result("Pedido eliminado con ID: " + id);
+    public void actualizar(Context ctx) {
+        Pedido actualizado = ctx.bodyAsClass(Pedido.class);
+        service.actualizar(ctx.pathParam("id"), actualizado);
+        ctx.status(200).json(actualizado);
     }
 
-    public void actualizarPedido(Context ctx) {
-        String id = ctx.pathParam("id");
-        Pedido pedido = ctx.bodyAsClass(Pedido.class);
-        pedidoService.actualizarPedido(id, pedido);
-        ctx.status(200).json(pedido);
+    public void eliminar(Context ctx) {
+        service.eliminar(ctx.pathParam("id"));
+        ctx.status(200).result("Pedido eliminado");
     }
 
-    public void listarPedidos(Context ctx) {
-        ctx.json(pedidoService.obtenerPedidos());
+    public void listar(Context ctx) {
+        ctx.json(service.listar());
     }
 }

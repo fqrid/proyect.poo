@@ -1,48 +1,48 @@
 package com.ejemplo.demo.controller;
 
-import io.javalin.Javalin;
-import io.javalin.http.Context;
 import com.ejemplo.demo.model.Usuario;
 import com.ejemplo.demo.service.UsuarioService;
+import io.javalin.Javalin;
+import io.javalin.http.Context;
 
 public class UsuarioController {
 
-    private final UsuarioService usuarioService;
+    private final UsuarioService service;
 
-    public UsuarioController(UsuarioService usuarioService) {
-        this.usuarioService = usuarioService;
+    public UsuarioController(UsuarioService service) {
+        this.service = service;
     }
 
     public void configurarRutas(Javalin app) {
-        app.post("/usuarios", this::guardarUsuario);
-        app.get("/usuarios/{id}", this::obtenerUsuario);
-        app.delete("/usuarios/{id}", this::eliminarUsuario);
-        app.put("/usuarios/{id}", this::actualizarUsuario);
-        app.get("/usuarios", this::listarUsuarios);
+        app.post("/usuarios", this::crear);
+        app.get("/usuarios/{id}", this::obtener);
+        app.put("/usuarios/{id}", this::actualizar);
+        app.delete("/usuarios/{id}", this::eliminar);
+        app.get("/usuarios", this::listar);
     }
 
-    public void guardarUsuario(Context ctx) {
+    public void crear(Context ctx) {
         Usuario usuario = ctx.bodyAsClass(Usuario.class);
-        usuarioService.guardarUsuario(usuario);
+        service.crear(usuario);
         ctx.status(201).json(usuario);
     }
 
-    public void obtenerUsuario(Context ctx) {
-        ctx.json(usuarioService.obtenerUsuario(ctx.pathParam("id")));
+    public void obtener(Context ctx) {
+        ctx.json(service.obtener(ctx.pathParam("id")));
     }
 
-    public void eliminarUsuario(Context ctx) {
-        usuarioService.eliminarUsuario(ctx.pathParam("id"));
+    public void actualizar(Context ctx) {
+        Usuario actualizado = ctx.bodyAsClass(Usuario.class);
+        service.actualizar(ctx.pathParam("id"), actualizado);
+        ctx.status(200).json(actualizado);
+    }
+
+    public void eliminar(Context ctx) {
+        service.eliminar(ctx.pathParam("id"));
         ctx.status(200).result("Usuario eliminado");
     }
 
-    public void actualizarUsuario(Context ctx) {
-        Usuario usuario = ctx.bodyAsClass(Usuario.class);
-        usuarioService.actualizarUsuario(ctx.pathParam("id"), usuario);
-        ctx.status(200).json(usuario);
-    }
-
-    public void listarUsuarios(Context ctx) {
-        ctx.json(usuarioService.obtenerUsuarios());
+    public void listar(Context ctx) {
+        ctx.json(service.listar());
     }
 }

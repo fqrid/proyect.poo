@@ -1,32 +1,33 @@
 package com.ejemplo.demo.model;
 
 public class Inventario {
-    private Integer id;
-    private Producto producto;
+    private String id;
+    private String productoId;
     private int cantidad;
 
-    public Inventario() {}
+    public Inventario() {
+    }
 
-    public Inventario(Integer id, Producto producto, int cantidad) {
+    public Inventario(String id, String productoId, int cantidad) {
         this.id = id;
-        this.producto = producto;
+        this.productoId = productoId;
         this.cantidad = cantidad;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Producto getProducto() {
-        return producto;
+    public String getProductoId() {
+        return productoId;
     }
 
-    public void setProducto(Producto producto) {
-        this.producto = producto;
+    public void setProductoId(String productoId) {
+        this.productoId = productoId;
     }
 
     public int getCantidad() {

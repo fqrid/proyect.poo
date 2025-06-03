@@ -3,47 +3,32 @@ package com.ejemplo.demo.repository;
 import com.ejemplo.demo.model.ItemCarrito;
 import java.util.*;
 
-/**
- * Repositorio en memoria para ItemCarrito, usando String como ID.
- * Internamente genera IDs secuenciales (1, 2, 3, …) convertidos a String.
- */
 public class ItemCarritoRepository {
-    // Mapa de id:String  →  ItemCarrito
-    private final Map<String, ItemCarrito> data = new HashMap<>();
-    private long currentId = 1;
+    private final List<ItemCarrito> datos = new ArrayList<>();
 
-    /**
-     * Guarda un nuevo ItemCarrito o actualiza uno existente.
-     * Si item.getId() == null, se genera un nuevo IDString.
-     * En caso contrario, se overwrite del item existente.
-     */
-    public ItemCarrito save(ItemCarrito item) {
-        if (item.getId() == null) {
-            // Generar nuevo ID como String
-            item.setId(String.valueOf(currentId++));
+    public void agregar(ItemCarrito item) {
+        datos.add(item);
+    }
+
+    public Optional<ItemCarrito> obtenerPorId(String id) {
+        return datos.stream().filter(i -> i.getId().equals(id)).findFirst();
+    }
+
+    public List<ItemCarrito> obtenerTodos() {
+        return datos;
+    }
+
+    public boolean eliminarPorId(String id) {
+        return datos.removeIf(i -> i.getId().equals(id));
+    }
+
+    public boolean actualizar(ItemCarrito item) {
+        Optional<ItemCarrito> existente = obtenerPorId(item.getId());
+        if (existente.isPresent()) {
+            datos.remove(existente.get());
+            datos.add(item);
+            return true;
         }
-        data.put(item.getId(), item);
-        return item;
-    }
-
-    /**
-     * Busca por ID (String). Retorna Optional<ItemCarrito>.
-     */
-    public Optional<ItemCarrito> findById(String id) {
-        return Optional.ofNullable(data.get(id));
-    }
-
-    /**
-     * Devuelve todos los items en forma de lista.
-     */
-    public List<ItemCarrito> findAll() {
-        return new ArrayList<>(data.values());
-    }
-
-    /**
-     * Elimina el item con ese ID. Si no existe, no hace nada.
-     */
-    public void deleteById(String id) {
-        data.remove(id);
+        return false;
     }
 }

@@ -4,26 +4,22 @@ import com.ejemplo.demo.model.Rol;
 import java.util.*;
 
 public class RolRepository {
-    private final Map<Long, Rol> data = new HashMap<>();
-    private long currentId = 1;
+    private final Map<String, Rol> datos = new HashMap<>();
 
-    public Rol save(Rol item) {
-        if (item.getId() == null) {
-            item.setId(currentId++);
-        }
-        data.put(item.getId(), item);
-        return item;
+    public Rol save(Rol rol) {
+        datos.put(rol.getId(), rol);
+        return rol;
     }
 
-    public Optional<Rol> findById(Long id) {
-        return Optional.ofNullable(data.get(id));
+    public Optional<Rol> findById(String id) {
+        return Optional.ofNullable(datos.get(id));
     }
 
     public List<Rol> findAll() {
-        return new ArrayList<>(data.values());
+        return new ArrayList<>(datos.values());
     }
 
-    public void deleteById(Long id) {
-        data.remove(id);
+    public void deleteById(String id) {
+        datos.remove(id);
     }
 }

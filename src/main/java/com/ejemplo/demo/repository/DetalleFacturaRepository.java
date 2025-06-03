@@ -1,38 +1,34 @@
 package com.ejemplo.demo.repository;
 
 import com.ejemplo.demo.model.DetalleFactura;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class DetalleFacturaRepository {
-    private final List<DetalleFactura> detalleFacturas = new ArrayList<>();
+    private final List<DetalleFactura> datos = new ArrayList<>();
 
-    public void agregar(DetalleFactura detalleFactura) {
-        detalleFacturas.add(detalleFactura);
+    public void agregar(DetalleFactura detalle) {
+        datos.add(detalle);
+    }
+
+    public Optional<DetalleFactura> obtenerPorId(String id) {
+        return datos.stream().filter(d -> d.getId().equals(id)).findFirst();
     }
 
     public List<DetalleFactura> obtenerTodos() {
-        return detalleFacturas;
+        return datos;
     }
 
-    public Optional<DetalleFactura> obtenerPorId(Long id) {
-        return detalleFacturas.stream()
-                .filter(df -> df.getId().equals(id))
-                .findFirst();
-    }
-
-    public boolean eliminarPorId(Long id) {
-        return detalleFacturas.removeIf(df -> df.getId().equals(id));
-    }
-
-    public boolean actualizar(DetalleFactura detalleFactura) {
-        Optional<DetalleFactura> existente = obtenerPorId(detalleFactura.getId());
+    public boolean actualizar(DetalleFactura detalle) {
+        Optional<DetalleFactura> existente = obtenerPorId(detalle.getId());
         if (existente.isPresent()) {
-            detalleFacturas.remove(existente.get());
-            detalleFacturas.add(detalleFactura);
+            datos.remove(existente.get());
+            datos.add(detalle);
             return true;
         }
         return false;
+    }
+
+    public boolean eliminarPorId(String id) {
+        return datos.removeIf(d -> d.getId().equals(id));
     }
 }

@@ -1,32 +1,46 @@
+// Factura.java
 package com.ejemplo.demo.model;
 
+import java.time.LocalDate;
+
 public class Factura {
-    private Integer id;
-    private Cliente cliente;
+    private String id;
+    private String clienteId;
+    private LocalDate fecha;
     private double total;
 
-    public Factura() {}
+    public Factura() {
+    }
 
-    public Factura(Integer id, Cliente cliente, double total) {
+    public Factura(String id, String clienteId, LocalDate fecha, double total) {
         this.id = id;
-        this.cliente = cliente;
+        this.clienteId = clienteId;
+        this.fecha = fecha;
         this.total = total;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public String getClienteId() {
+        return clienteId;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public void setClienteId(String clienteId) {
+        this.clienteId = clienteId;
+    }
+
+    public LocalDate getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
     }
 
     public double getTotal() {
